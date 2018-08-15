@@ -3,16 +3,12 @@ const path = require('path');
 const app = express();
 
 const PORT = 3000;
+const BUILD_PATH = path.join(__dirname, '../client/build');
 
-// app.use(express.static('assets'))
+app.use(express.static(BUILD_PATH));
 
-// app.get('/', (request, response) => {
-//     response.send('Hello World!');
-// });
-
-const staticPath = path.join(__dirname,'assets');
-console.log(staticPath);
-
-app.get('/*', express.static(staticPath));
+app.get('/', function (req, res) {
+  res.sendFile(BUILD_PATH+'/index.html');
+});
 
 app.listen(PORT, () => console.log('Lift-stat server listening on ' + PORT));
