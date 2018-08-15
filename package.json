@@ -1,0 +1,14 @@
+{
+  "name": "lift-stats",
+  "version": "1.0.0",
+  "description": "kovaja playing with react",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node ./server/server.js"
+  },
+  "author": "kovaja",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
