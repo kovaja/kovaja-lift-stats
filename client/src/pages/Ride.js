@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RideForm from '../components/RideForm';
+import RideForm from '../components/RideForm/RideForm';
 
 export default class Ride extends Component {
 
