@@ -3,17 +3,53 @@ import FloorSelector from './FloorSelector';
 import DirectionSelector from './DirectionSelector';
 
 export default class RideForm extends Component {
-  initTime;
   initTimeString;
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.setInitTime();
+    const now = new Date();
+
+    this.state = {
+      time: now.getTime(),
+      floor: null,
+      direction: null
+    }
+
+    this.setTimeFieldValue(now);
   }
 
-  setInitTime() {
-    this.initTime = new Date();
-    this.initTimeString = this.initTime.toISOString().slice(0, -5).split('T').join(' ');
+  setTimeFieldValue(now) {
+    this.initTimeString = now.toISOString().slice(0, -5).split('T').join(' ');
+  }
+
+  onFloorChange(newFloorValue) {
+    this.setState({
+      floor: newFloorValue
+    });
+  }
+
+  onDirectionChange(newDirectionValue) {
+    this.setState({
+      direction: newDirectionValue
+    });
+  }
+
+  submitRideData() {
+    const floorNotValid = this.state.floor === null;
+    const directionNotValid = this.state.direction === null;
+
+    if (floorNotValid || directionNotValid) {
+      alert('Please fill the full form');
+      return;
+    }
+
+    const data = {
+      time: this.state.time,
+      floor: this.state.floor,
+      direction: this.state.direction,
+    };
+
+    console.log('Data to send: ', data)
   }
 
   render() {
@@ -25,11 +61,11 @@ export default class RideForm extends Component {
           <input type="text" className="form-control" id="time" readOnly value={this.initTimeString} />
         </div>
 
-        <FloorSelector></FloorSelector>
-        <DirectionSelector></DirectionSelector>
+        <FloorSelector floorChange={this.onFloorChange.bind(this)}></FloorSelector>
+        <DirectionSelector directionChange={this.onDirectionChange.bind(this)}></DirectionSelector>
 
 
-        <button type="submit" className="btn btn-primary">
+        <button className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
           Submit
         </button>
 

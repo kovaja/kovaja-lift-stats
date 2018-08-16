@@ -1,6 +1,43 @@
 import React, { Component } from 'react';
 
 export default class DirectionSelector extends Component {
+  directions = [-1, 1];
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      direction: null
+    };
+  }
+
+  changeDirection(newDirection) {
+    this.props.directionChange(newDirection);
+    this.setState({direction: newDirection});
+  }
+
+  getDirection(directionAsNumber) {
+    return directionAsNumber === -1 ? 'down' : 'up';
+  }
+
+  renderButton(directionValue) {
+    const buttonStyle = {
+      marginRight: '2px'
+    };
+
+    return (
+      <button
+        className="btn btn-sm btn-dark"
+        key={'direction-' + directionValue}
+        style={buttonStyle}
+        onClick={this.changeDirection.bind(this, directionValue)}
+        disabled={this.state.direction === directionValue}
+      >
+       {'Direction ' + this.getDirection(directionValue)}
+      </button>
+    );
+  }
+
   render() {
 
     const divStyle = {
@@ -10,19 +47,7 @@ export default class DirectionSelector extends Component {
 
     return (
       <div style={divStyle}>
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="direction" id="up" value="up" />
-          <label className="form-check-label" htmlFor="up">
-            Going up
-          </label>
-        </div>
-
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="direction" id="down" value="down" />
-          <label className="form-check-label" htmlFor="down">
-            Going down
-          </label>
-        </div>
+        {this.directions.map(this.renderButton.bind(this))}
       </div>
     );
   }
