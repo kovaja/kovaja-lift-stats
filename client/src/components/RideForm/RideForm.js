@@ -44,15 +44,8 @@ export default class RideForm extends Component {
       return;
     }
 
-    const data = {
-      time: this.state.time,
-      floor: this.state.floor,
-      direction: this.state.direction,
-    };
-
-    console.log('Data to send: ', data)
-
-    Axios.get('/api').then(r => console.log(r)).catch(e => console.log(e));
+    console.log('Data to send: ', this.state)
+    Axios.post('/api', this.state).then(r => console.log(r)).catch(e => console.log(e));
   }
 
   render() {
