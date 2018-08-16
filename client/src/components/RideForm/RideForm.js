@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 import FloorSelector from './FloorSelector';
 import DirectionSelector from './DirectionSelector';
 
@@ -50,6 +51,8 @@ export default class RideForm extends Component {
     };
 
     console.log('Data to send: ', data)
+
+    Axios.get('/api').then(r => console.log(r)).catch(e => console.log(e));
   }
 
   render() {
