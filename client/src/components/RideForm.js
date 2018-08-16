@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FloorSelector from './FloorSelector';
+import DirectionSelector from './DirectionSelector';
 
 export default class RideForm extends Component {
   initTime;
@@ -25,20 +26,8 @@ export default class RideForm extends Component {
         </div>
 
         <FloorSelector></FloorSelector>
+        <DirectionSelector></DirectionSelector>
 
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="direction" id="up" value="up" />
-          <label className="form-check-label" htmlFor="up">
-            Going up
-          </label>
-        </div>
-
-        <div className="form-check">
-          <input className="form-check-input" type="radio" name="direction" id="down" value="down" />
-          <label className="form-check-label" htmlFor="down">
-            Going down
-          </label>
-        </div>
 
         <button type="submit" className="btn btn-primary">
           Submit

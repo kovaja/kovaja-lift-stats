@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 
 export default class FloorSelector extends Component {
   render() {
+
+    const divStyle = {
+      paddingTop: '10px',
+      paddingLeft: '30px',
+    };
+
     return (
-      <div>
+      <div style={divStyle}>
         <div className="form-check">
           <input className="form-check-input" type="radio" name="floor" id="floor0" value="0" />
           <label className="form-check-label" htmlFor="floor0">
