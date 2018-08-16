@@ -53,6 +53,10 @@ export default class RideForm extends Component {
   }
 
   render() {
+    const submitStyle = {
+      marginTop: '10px'
+    };
+
     return (
       <div>
 
@@ -65,7 +69,7 @@ export default class RideForm extends Component {
         <DirectionSelector directionChange={this.onDirectionChange.bind(this)}></DirectionSelector>
 
 
-        <button className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
+        <button style={submitStyle} className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
           Submit
         </button>
 

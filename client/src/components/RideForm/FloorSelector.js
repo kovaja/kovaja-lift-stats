@@ -18,12 +18,13 @@ export default class FloorSelector extends Component {
 
   renderButton(floorValue) {
     const buttonStyle = {
-      marginRight: '2px'
+      marginRight: '2px',
+      marginTop: '2px'
     };
 
     return (
       <button
-        className="btn btn-sm btn-info"
+        className="btn btn-md btn-info"
         key={'floor-' + floorValue}
         style={buttonStyle}
         onClick={this.changeFloor.bind(this, floorValue)}

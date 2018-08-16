@@ -22,12 +22,13 @@ export default class DirectionSelector extends Component {
 
   renderButton(directionValue) {
     const buttonStyle = {
-      marginRight: '2px'
+      marginRight: '2px',
+      marginTop: '2px'
     };
 
     return (
       <button
-        className="btn btn-sm btn-dark"
+        className="btn btn-md btn-warning"
         key={'direction-' + directionValue}
         style={buttonStyle}
         onClick={this.changeDirection.bind(this, directionValue)}

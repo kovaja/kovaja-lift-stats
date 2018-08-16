@@ -19,7 +19,6 @@ export default class Ride extends Component {
             Fill in the form, I will guess the lift
           </p>
         </div>
-
       </div>
     );
   }
