@@ -45,7 +45,7 @@ export default class RideForm extends Component {
     }
 
     console.log('Data to send: ', this.state)
-    Axios.post('/api', this.state).then(r => console.log(r)).catch(e => console.log(e));
+    Axios.post('/api/guess', this.state).then(r => console.log(r)).catch(e => console.log(e));
   }
 
   render() {
