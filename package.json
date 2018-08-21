@@ -4,7 +4,8 @@
   "description": "kovaja playing with react",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node ./server/server.js"
+    "server": "node ./server/server.js",
+    "client": "cd ./client && npm run start"
   },
   "author": "kovaja",
   "license": "ISC",
