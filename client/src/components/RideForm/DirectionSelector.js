@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-export default class DirectionSelector extends Component {
-  directions = [-1, 1];
+const DIRECTIONS = [-1, 1];
 
+export default class DirectionSelector extends Component {
   constructor(props) {
     super(props);
 
@@ -48,7 +48,7 @@ export default class DirectionSelector extends Component {
 
     return (
       <div style={divStyle}>
-        {this.directions.map(this.renderButton.bind(this))}
+        {DIRECTIONS.map(this.renderButton.bind(this))}
       </div>
     );
   }

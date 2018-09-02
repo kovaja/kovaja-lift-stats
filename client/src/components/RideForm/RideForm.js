@@ -4,7 +4,6 @@ import FloorSelector from './FloorSelector';
 import DirectionSelector from './DirectionSelector';
 
 export default class RideForm extends Component {
-  initTimeString;
   constructor(props) {
     super(props);
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
+const FLOORS = [1,3,6,7,14]
+
 export default class FloorSelector extends Component {
-  floors = [1,3,6,7,14]
+
 
   constructor(props) {
     super(props);
@@ -44,7 +46,7 @@ export default class FloorSelector extends Component {
 
     return (
       <div style={divStyle}>
-        {this.floors.map(this.renderButton.bind(this))}
+        {FLOORS.map(this.renderButton.bind(this))}
       </div>
     );
   }

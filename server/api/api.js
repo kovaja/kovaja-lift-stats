@@ -1,4 +1,4 @@
-const Guess = require('./v1/guess/guess');
+const Guess = require('./v1/guess/guess.service');
 
 module.exports = class Api {
   constructor() {
