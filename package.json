@@ -6,7 +6,7 @@
     "start": "npm run client:prod && node ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:dev": "nodemon ./server/server.js",
-    "client": "cd ./client && npm run start",
+    "client:dev": "webpack --mode development",
     "client:prod": "webpack --mode production"
   },
   "author": "kovaja",
@@ -32,6 +32,5 @@
     "style-loader": "^0.23.0",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0"
-  },
-  "proxy": "http://localhost:8000/"
+  }
 }
