@@ -11,6 +11,7 @@ export default class Header extends Component {
               Lift-stats!
             </h1>
             <span>Let me tell you what lift will arrive!!</span>
+
           </div>
           <ul className="nav nav-tabs">
             <li className="nav-item">
