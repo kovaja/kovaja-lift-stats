@@ -6,7 +6,7 @@
     "start": "npm run client:prod && node ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:dev": "nodemon ./server/server.js",
-    "client:dev": "webpack --mode development",
+    "client:dev": "webpack --mode development --watch",
     "client:prod": "webpack --mode production"
   },
   "author": "kovaja",

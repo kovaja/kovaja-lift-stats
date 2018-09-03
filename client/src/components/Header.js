@@ -8,8 +8,9 @@ export default class Header extends Component {
         <div className="col-md-12">
           <div className="page-header">
             <h1>
-              Lift-stats! <small>Smart way how to be first in the right lift</small>
+              Lift-stats!
             </h1>
+            <span>Let me tell you what lift will arrive!!</span>
           </div>
           <ul className="nav nav-tabs">
             <li className="nav-item">

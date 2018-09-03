@@ -1,5 +1,7 @@
 const Record = require('../../../database/schemas/record.schema');
 
+const LIFTS = [1,2,3,4];
+
 module.exports = class Guess {
   validateData(data) {
     if (data.hasOwnProperty('direction') === false) {
@@ -49,7 +51,7 @@ module.exports = class Guess {
   }
 
   computeGuess(data) {
-    return 123456;
+    return  LIFTS[Math.floor(Math.random() * LIFTS.length)];
   };
 
   getGuess(data) {
