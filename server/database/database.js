@@ -11,7 +11,9 @@ module.exports = class Database {
       return;
     }
     mongoose
-      .connect(config.mongo.connectString)
+      .connect(config.mongo.connectString, {
+        useNewUrlParser: true
+      })
       .then( () => console.log('DB connected!'))
       .catch(err => console.error('DB connection failed', err));
 

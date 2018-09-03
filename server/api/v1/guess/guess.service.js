@@ -51,6 +51,7 @@ module.exports = class Guess {
   }
 
   computeGuess(data) {
+    console.log('RIDE DATA: ', data);
     return  LIFTS[Math.floor(Math.random() * LIFTS.length)];
   };
 
