@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
 const config = require('../secrets/config');
 
- const useDB = true;
- // const useDB = false;
+const useDB = true;
 
 module.exports = class Database {
   initalize() {

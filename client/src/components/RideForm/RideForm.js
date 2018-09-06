@@ -3,6 +3,8 @@ import Axios from 'axios';
 import FloorSelector from './FloorSelector';
 import DirectionSelector from './DirectionSelector';
 
+const DAYS = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 export default class RideForm extends Component {
   constructor(props) {
     super(props);
@@ -11,20 +13,24 @@ export default class RideForm extends Component {
 
   getInitialState() {
     const now = new Date();
+    const hour = now.getHours() + 1;
+    const day = now.getDay();
 
     return {
       ride: {
-        time: now.getTime(),
+        hour: hour,
+        day: day,
         floor: null,
         direction: null
       },
-      initTimeString: this.getTimeFieldValue(now),
+      initTimeString: this.getTimeFieldValue(day, hour),
       guess: null
     };
   }
 
-  getTimeFieldValue(now) {
-    return now.toISOString().slice(0, -5).split('T').join(' ');
+  getTimeFieldValue(dayNumber, hour) {
+    const day = DAYS[dayNumber - 1];
+    return day + ', ' + (hour) + '. hour';
   }
 
   onFloorChange(newFloorValue) {

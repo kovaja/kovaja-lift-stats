@@ -12,8 +12,22 @@ module.exports = class Guess {
       return '[API Guess error] Property floor is missing.';
     }
 
-    if (data.hasOwnProperty('time') === false) {
-      return '[API Guess error] Property time is missing.';
+    if (data.hasOwnProperty('hour') === false) {
+      return '[API Guess error] Property hour is missing.';
+    }
+
+    if (data.hasOwnProperty('day') === false) {
+      return '[API Guess error] Property day is missing.';
+    }
+
+    // TODO: make sure its within 1 - 24
+    if (typeof data['hour'] !== 'number' || isNaN(data['hour'])) {
+      return '[API Guess error] Property hour is not a number.';
+    }
+
+    // TODO: make sure its within 1 - 7
+    if (typeof data['day'] !== 'number' || isNaN(data['day'])) {
+      return '[API Guess error] Property day is not a number.';
     }
 
     if (typeof data['direction'] !== 'number' || isNaN(data['direction'])) {
@@ -24,17 +38,13 @@ module.exports = class Guess {
       return '[API Guess error] Property floor is is not a number.';
     }
 
-    // TODO: timestamp validation
-    if (typeof data['time'] !== 'number' || isNaN(data['time'])) {
-      return '[API Guess error] Property time is is not a number.';
-    }
-
     return null;
   };
 
   storeGuess(data, guess) {
     const record = new Record({
-      time: data.time,
+      hour: data.hour,
+      day: data.day,
       floor: data.floor,
       direction: data.direction,
       guess: guess,

@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RecordSchema = new Schema({
-    time: Number,
+    hour: Number,
+    day: Number,
     floor: Number,
     direction: Number,
     guess: Number,
