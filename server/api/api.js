@@ -1,4 +1,5 @@
-const Guess = require('./v1/guess/guess.service');
+const GuessService = require('./v1/guess/guess.service');
+const LiftService = require('./v1/lift/lift.service');
 
 module.exports = class Api {
   constructor() {
@@ -6,14 +7,15 @@ module.exports = class Api {
   }
 
   initializeEndpoints() {
-    this.guess = new Guess();
+    this.guessService = new GuessService();
+    this.liftService = new LiftService();
   }
 
   handlePostRequest(handler) {
     const handlerFactory = (request, response) => {
 
       const sendResponse = (responseData) => {
-        console.log(request.url, 200, responseData);
+        console.log('---', request.url, 200, responseData, '---');
         response.status(200).send(responseData);
       };
 
@@ -22,9 +24,11 @@ module.exports = class Api {
           message: errorMessage
         };
 
-        console.log(request.url, 500, error);
+        console.log('--',request.url, 500, error, '--');
         response.status(500).send(error);
       }
+
+      console.log('----------POST ' + request.url + ' REQUEST START------------');
 
       handler(request.body)
         .then(sendResponse)
@@ -42,7 +46,8 @@ module.exports = class Api {
     const router = express.Router();
 
     const posts = [
-      ['/guess', this.handlePostRequest(this.guess.getGuess.bind(this.guess))]
+      ['/guess', this.handlePostRequest(this.guessService.getGuess.bind(this.guessService))],
+      ['/lift', this.handlePostRequest(this.liftService.setLift.bind(this.liftService))]
     ]
 
     posts.forEach(this.setPostRoute.bind(this, router));

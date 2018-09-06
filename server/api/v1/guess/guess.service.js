@@ -1,8 +1,8 @@
 const Record = require('../../../database/schemas/record.schema');
 
-const LIFTS = [1,2,3,4];
+const LIFTS = [1, 2, 3, 4];
 
-module.exports = class Guess {
+module.exports = class GuessService {
   validateData(data) {
     if (data.hasOwnProperty('direction') === false) {
       return '[API Guess error] Property direction is missing.';
@@ -42,44 +42,42 @@ module.exports = class Guess {
   };
 
   storeGuess(data, guess) {
-    const record = new Record({
+    // TODO: make env files
+    const isDevEnvironment = __dirname.indexOf('C:') !== -1;
+
+    const recordData = {
       hour: data.hour,
       day: data.day,
       floor: data.floor,
       direction: data.direction,
       guess: guess,
-      lift: null
-    });
+      lift: null,
+      fake: isDevEnvironment
+    };
 
-    record.save()
-      .then((storeData) => {
-        console.log('RECORD STORED', storeData);
-      })
-      .catch((e) => {
-        console.error('Data not stored', e);
-      });
+    return new Record(recordData).save();
   }
 
   computeGuess(data) {
     console.log('RIDE DATA: ', data);
-    return  LIFTS[Math.floor(Math.random() * LIFTS.length)];
+    return LIFTS[Math.floor(Math.random() * LIFTS.length)];
   };
 
   getGuess(data) {
-    const guessPromise = (resolve, reject) => {
-      const validationError = this.validateData(data);
+    const validationError = this.validateData(data);
 
-      if (validationError) {
-        reject(validationError);
-        return;
-      }
+    if (validationError) {
+      return Promise.reject(validationError);
+    }
 
-      const guess = this.computeGuess(data);
-      this.storeGuess(data, guess)
+    const guess = this.computeGuess(data);
 
-      resolve({ guess: guess });
-    };
-
-    return new Promise(guessPromise)
+    return this.storeGuess(data, guess)
+      .then((storedGuess) => {
+        return {
+          guess: storedGuess.guess,
+          guessId: storedGuess._id
+        }
+      });
   };
 }

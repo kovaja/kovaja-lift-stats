@@ -1,14 +1,8 @@
 var mongoose = require('mongoose');
 const config = require('../secrets/config');
 
-const useDB = true;
-
 module.exports = class Database {
   initalize() {
-    if (useDB === false) {
-      console.log('NOT USING DATABASE');
-      return;
-    }
     mongoose
       .connect(config.mongo.connectString, {
         useNewUrlParser: true

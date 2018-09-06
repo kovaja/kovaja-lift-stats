@@ -7,7 +7,8 @@ var RecordSchema = new Schema({
     floor: Number,
     direction: Number,
     guess: Number,
-    lift: Number
+    lift: Number,
+    fake: Boolean
 });
 
 module.exports = mongoose.model('Record', RecordSchema);
