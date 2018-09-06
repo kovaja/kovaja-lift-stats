@@ -85,7 +85,7 @@ module.exports = class RecordService {
 
       Record.updateOne(query, partialModel, {}, (err) => {
         if (err) {
-          reject(e);
+          reject(err);
           return;
         }
 
@@ -127,5 +127,34 @@ module.exports = class RecordService {
     }
 
     return this.updateRecordInDB(id, partialModel);
+  }
+
+  readRecords() {
+    const cb = (resolve, reject) => {
+      Record.find({}, (err, records) => {
+        console.log(records);
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const filteredRecords = records
+          .filter(r => !r.fake)
+          .map(r => {
+            return {
+              hour: r.hour,
+              day: r.day,
+              floor: r.floor,
+              direction: r.direction,
+              guess: r.guess,
+              lift: r.lift
+            }
+          });
+
+        resolve(filteredRecords);
+      });
+    };
+
+    return new Promise(cb);
   }
 }
