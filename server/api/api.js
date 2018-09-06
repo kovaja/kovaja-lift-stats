@@ -1,5 +1,4 @@
-const GuessService = require('./v1/guess/guess.service');
-const LiftService = require('./v1/lift/lift.service');
+const RecordService = require('./v1/record/record.service');
 
 module.exports = class Api {
   constructor() {
@@ -7,32 +6,40 @@ module.exports = class Api {
   }
 
   initializeEndpoints() {
-    this.guessService = new GuessService();
-    this.liftService = new LiftService();
+    this.recordService = new RecordService();
+  }
+
+  sendResponse(response, responseData) {
+    response.status(200).send(responseData);
+  }
+
+  sendError(response, errorMessage) {
+    const error = {
+      message: errorMessage
+    };
+
+    response.status(500).send(error);
   }
 
   handlePostRequest(handler) {
     const handlerFactory = (request, response) => {
-
-      const sendResponse = (responseData) => {
-        console.log('---', request.url, 200, responseData, '---');
-        response.status(200).send(responseData);
-      };
-
-      const sendError = (errorMessage) => {
-        const error = {
-          message: errorMessage
-        };
-
-        console.log('--',request.url, 500, error, '--');
-        response.status(500).send(error);
-      }
-
       console.log('----------POST ' + request.url + ' REQUEST START------------');
 
       handler(request.body)
-        .then(sendResponse)
-        .catch(sendError);
+        .then(this.sendResponse.bind(this, response))
+        .catch(this.sendError.bind(this, response));
+    };
+
+    return handlerFactory;
+  }
+
+  handlePatchRequest(handler) {
+    const handlerFactory = (request, response) => {
+      console.log('----------PATCH ' + request.url + ' REQUEST START------------');
+
+      handler(request.params.id, request.body)
+        .then(this.sendResponse.bind(this, response))
+        .catch(this.sendError.bind(this, response));
     };
 
     return handlerFactory;
@@ -42,15 +49,23 @@ module.exports = class Api {
     router.route(routeData[0]).post(routeData[1]);
   }
 
+  setPatchRoute(router, routeData) {
+    router.route(routeData[0]).patch(routeData[1]);
+  }
+
   initalizeRouter(express) {
     const router = express.Router();
 
     const posts = [
-      ['/guess', this.handlePostRequest(this.guessService.getGuess.bind(this.guessService))],
-      ['/lift', this.handlePostRequest(this.liftService.setLift.bind(this.liftService))]
+      ['/record', this.handlePostRequest(this.recordService.createRecord.bind(this.recordService))]
+    ]
+
+    const patches = [
+      ['/record/:id', this.handlePatchRequest(this.recordService.patchRecord.bind(this.recordService))]
     ]
 
     posts.forEach(this.setPostRoute.bind(this, router));
+    patches.forEach(this.setPatchRoute.bind(this, router));
     return router;
   }
 }
