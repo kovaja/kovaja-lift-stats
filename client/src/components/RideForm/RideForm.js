@@ -25,7 +25,7 @@ export default class RideForm extends Component {
       },
       initTimeString: this.getTimeFieldValue(day, hour),
       guess: null,
-      guessId: null,
+      recordId: null,
       correctLift: null,
     };
   }
@@ -66,11 +66,11 @@ export default class RideForm extends Component {
       return;
     }
 
-    Axios.post('/api/guess', this.state.ride)
+    Axios.post('/api/record', this.state.ride)
       .then(response => {
         this.setState({
           guess: response.data.guess,
-          guessId: response.data.guessId
+          recordId: response.data.recordId
         });
       })
       .catch(e => {
@@ -94,12 +94,11 @@ export default class RideForm extends Component {
     console.log(correctLift);
 
     const postData = {
-      lift: correctLift,
-      guessId: this.state.guessId
+      lift: correctLift
     };
 
     // should be PUT but whatever for now
-    Axios.post('/api/lift', postData)
+    Axios.patch('/api/record/' + this.state.recordId, postData)
       .then(response => {
         this.setState(this.getInitialState());
       })
@@ -145,7 +144,7 @@ export default class RideForm extends Component {
     );
   }
 
-  renderGuess() {
+  renderResult() {
     return (
       <div>
         <hr />
@@ -156,7 +155,7 @@ export default class RideForm extends Component {
 
         <hr />
         <div className="form-group">
-          <label htmlFor="time">Please fill in lift:</label>
+          <label htmlFor="time">Please fill in the lift:</label>
           <input type="text" className="form-control" id="lift" onChange={this.setLiftChange.bind(this)} />
         </div>
 
@@ -170,6 +169,6 @@ export default class RideForm extends Component {
   }
 
   render() {
-    return this.state.guess ? this.renderGuess() : this.renderForm();
+    return this.state.guess ? this.renderResult() : this.renderForm();
   }
 }
