@@ -11,6 +11,9 @@ export default class About extends Component {
           <p>
             Fill in the form, I will guess the lift
           </p>
+          <p>
+            Give me the correct answer, I will learn.
+          </p>
         </div>
       </div>
     );

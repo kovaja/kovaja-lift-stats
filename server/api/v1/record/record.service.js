@@ -132,7 +132,6 @@ module.exports = class RecordService {
   readRecords() {
     const cb = (resolve, reject) => {
       Record.find({}, (err, records) => {
-        console.log(records);
         if (err) {
           reject(err);
           return;
