@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
+/* eslint-disable indent */
 var RecordSchema = new Schema({
     hour: Number,
     day: Number,

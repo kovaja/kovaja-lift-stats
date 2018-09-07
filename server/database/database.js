@@ -7,8 +7,8 @@ module.exports = class Database {
       .connect(config.mongo.connectString, {
         useNewUrlParser: true
       })
-      .then( () => console.log('DB connected!'))
+      .then( () => console.debug('DB connected!'))
       .catch(err => console.error('DB connection failed', err));
 
   }
-}
+};

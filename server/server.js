@@ -23,4 +23,4 @@ app.use(express.static(BUILD_PATH));
 app.use(bodyParserJson);
 app.use('/api', router);
 app.get('/', serveIndex);
-app.listen(PORT, () => console.log('Lift-stat server listening on ' + PORT));
+app.listen(PORT, () => console.debug('Lift-stat server listening on ' + PORT));

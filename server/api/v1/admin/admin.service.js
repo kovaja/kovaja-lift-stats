@@ -18,4 +18,4 @@ module.exports = class AdminService {
 
     return new Promise(cb);
   }
-}
+};

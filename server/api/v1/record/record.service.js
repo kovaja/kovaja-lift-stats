@@ -44,7 +44,7 @@ module.exports = class RecordService {
     }
 
     return null;
-  };
+  }
 
   validateDataToPatch(data) {
     if (data === null) {
@@ -60,7 +60,7 @@ module.exports = class RecordService {
     }
 
     return null;
-  };
+  }
 
   createRecordInDB(data, guess) {
     // TODO: make env files
@@ -93,13 +93,13 @@ module.exports = class RecordService {
       });
     };
 
-    return new Promise(cb)
+    return new Promise(cb);
   }
 
   computeGuess(data) {
-    console.log('RIDE DATA: ', data);
+    console.debug('RIDE DATA: ', data);
     return LIFTS[Math.floor(Math.random() * LIFTS.length)];
-  };
+  }
 
   createRecord(model) {
     const validationError = this.validateModelToCreate(model);
@@ -115,9 +115,9 @@ module.exports = class RecordService {
         return {
           guess: storedRecord.guess,
           recordId: storedRecord._id
-        }
+        };
       });
-  };
+  }
 
   patchRecord(id, partialModel) {
     const validationError = this.validateDataToPatch(partialModel);
@@ -147,7 +147,7 @@ module.exports = class RecordService {
               direction: r.direction,
               guess: r.guess,
               lift: r.lift
-            }
+            };
           });
 
         resolve(filteredRecords);
@@ -156,4 +156,4 @@ module.exports = class RecordService {
 
     return new Promise(cb);
   }
-}
+};

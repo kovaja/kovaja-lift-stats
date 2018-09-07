@@ -135,7 +135,7 @@ export default class RideForm extends Component {
 
 
         <button style={submitStyle} className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
-          Submit
+          Submit s
         </button>
 
       </div>

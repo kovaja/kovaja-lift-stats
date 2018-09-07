@@ -25,7 +25,7 @@ module.exports = class Api {
 
   handlePostRequest(handler) {
     const handlerFactory = (request, response) => {
-      console.log('----------POST ' + request.url + ' REQUEST START------------');
+      console.debug('----------POST ' + request.url + ' REQUEST START------------');
 
       handler(request.body)
         .then(this.sendResponse.bind(this, response))
@@ -37,7 +37,7 @@ module.exports = class Api {
 
   handlePatchRequest(handler) {
     const handlerFactory = (request, response) => {
-      console.log('----------PATCH ' + request.url + ' REQUEST START------------');
+      console.debug('----------PATCH ' + request.url + ' REQUEST START------------');
 
       handler(request.params.id, request.body)
         .then(this.sendResponse.bind(this, response))
@@ -49,7 +49,7 @@ module.exports = class Api {
 
   handleGetRequest(handler) {
     const handlerFactory = (request, response) => {
-      console.log('----------GET ' + request.url + ' REQUEST START------------');
+      console.debug('----------GET ' + request.url + ' REQUEST START------------');
 
       handler()
         .then(this.sendResponse.bind(this, response))
@@ -99,4 +99,4 @@ module.exports = class Api {
 
     return router;
   }
-}
+};

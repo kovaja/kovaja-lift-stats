@@ -1,6 +1,7 @@
 module.exports = {
     "env": {
         "browser": true,
+        "node": true,
         "es6": true,
         "jest": true,
     },
@@ -31,6 +32,12 @@ module.exports = {
         "semi": [
             "error",
             "always"
+        ],
+        "no-console": [
+            "error",
+            { allow:
+                ["warn", "error", "debug"]
+            }
         ]
     }
 };
