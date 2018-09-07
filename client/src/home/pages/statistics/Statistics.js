@@ -12,10 +12,10 @@ export default class Statistics extends Component {
     };
 
     this.api = new ApiService();
-    this.fetchRecords();
+    this.loadRecords();
   }
 
-  fetchRecords() {
+  loadRecords() {
     this.api.readRecords().then(data => this.setState({records: data}));
   }
 
