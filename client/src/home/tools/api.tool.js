@@ -2,7 +2,15 @@ export default function ApiTool() {
   const apiprefix = '/api';
 
   return {
-    createRecordUrl: () => `${apiprefix}/record`,
-    patchRecordUrl: (id) => `${apiprefix}/record/${id}`
+    record: () => {
+
+      const subUrl = 'record';
+
+      return {
+        create: () => `${apiprefix}/${subUrl}`,
+        patch: (id) => `${apiprefix}/${subUrl}/${id}`,
+        readAll: () => `${apiprefix}/${subUrl}`
+      };
+    }
   }
 }

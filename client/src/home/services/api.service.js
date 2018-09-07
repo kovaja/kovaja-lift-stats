@@ -12,16 +12,30 @@ export default class ApiService {
     alert(errorMessage);
   }
 
-  createRecord(record) {
-    const url = ApiTool().createRecordUrl();
+  extractData(response) {
+    return response.data;
+  }
 
-    return Axios.post(url, record).then(response => response.data)
+  createRecord(record) {
+    const url = ApiTool().record().create();
+
+    return Axios.post(url, record)
+      .then(this.extractData)
       .catch(this.handleError);
   }
 
   patchRecord(id, partial) {
-    const url = ApiTool().patchRecordUrl(id);
+    const url = ApiTool().record().patch(id);
 
-    return Axios.patch(url, partial).catch(this.handleError);
+    return Axios.patch(url, partial)
+      .catch(this.handleError);
+  }
+
+  readRecords() {
+    const url = ApiTool().record().readAll();
+
+    return Axios.get(url)
+      .then(this.extractData)
+      .catch(this.handleError);
   }
 }

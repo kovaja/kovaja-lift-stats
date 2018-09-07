@@ -1,35 +1,22 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import Table from './components/table/Table';
+import ApiService from '../../services/api.service';
 
 export default class Statistics extends Component {
   constructor(props) {
     super(props);
 
-    this.state = this.getInitialState();
+    this.state = {
+      records: []
+    };
+
+    this.api = new ApiService();
     this.fetchRecords();
   }
 
-  getInitialState() {
-    return {
-      records: []
-    };
-  }
-
   fetchRecords() {
-    Axios.get('/api/record')
-      .then(response => {
-        this.setState({records: response.data});
-      })
-      .catch(e => {
-        let errorMessage = e + '';
-
-        if (e.response && e.response.data) {
-          errorMessage += '\n message: ' + e.response.data.message;
-        }
-
-        alert(errorMessage);
-      });
+    this.api.readRecords().then(data => this.setState({records: data}));
   }
 
   render() {
