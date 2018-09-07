@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import Table from '../components/Table/Table';
+import Table from './components/table/Table';
 
 export default class Statistics extends Component {
   constructor(props) {

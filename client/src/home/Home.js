@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Statistics from './Statistics';
-import Ride from './Ride';
-import Header from '../components/Header';
-import About from './About';
+import Header from './components/Header';
+import Ride from './pages/ride/Ride';
+import Statistics from './pages/statistics/Statistics';
+import About from './pages/about/About';
 
 export default class Home extends Component {
   render() {
