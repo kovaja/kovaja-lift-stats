@@ -10,7 +10,7 @@ export default class Home extends Component {
   render() {
 
     return (
-      <div className="lift-stats-home container-fluid">
+      <div className="lift-stats-home container">
         <Header></Header>
         <Switch>
           <Route exact path='/' component={Record}/>

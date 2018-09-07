@@ -108,11 +108,7 @@ export default class Record extends Component {
 
     return (
       <div>
-
-        <div className="form-group">
-          <label htmlFor="time">Time</label>
-          <input type="text" className="form-control" id="time" readOnly value={this.state.initTimeString} />
-        </div>
+        <span>Time: {this.state.initTimeString}</span>
 
         <FloorSelector floorChange={this.onFloorChange.bind(this)}></FloorSelector>
         <DirectionSelector directionChange={this.onDirectionChange.bind(this)}></DirectionSelector>
@@ -153,7 +149,7 @@ export default class Record extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-xs-12 page">
           { this.state.guess ? this.renderResult() : this.renderForm() }
         </div>
       </div>
