@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import FloorSelector from './FloorSelector';
 import DirectionSelector from './DirectionSelector';
+import ApiService from '../../../../services/api.service';
+import LiftSelector from './LiftSelector';
 
 const DAYS = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -9,6 +10,7 @@ export default class RideForm extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
+    this.api = new ApiService();
   }
 
   getInitialState() {
@@ -57,6 +59,19 @@ export default class RideForm extends Component {
     });
   }
 
+  onLiftChange(newLiftValue) {
+    this.setState({
+      correctLift: newLiftValue
+    });
+  }
+
+  afterRecordSaved(serverData) {
+    this.setState({
+      guess: serverData.guess,
+      recordId: serverData.recordId
+    });
+  }
+
   submitRideData() {
     const floorNotValid = this.state.floor === null;
     const directionNotValid = this.state.direction === null;
@@ -66,22 +81,8 @@ export default class RideForm extends Component {
       return;
     }
 
-    Axios.post('/api/record', this.state.ride)
-      .then(response => {
-        this.setState({
-          guess: response.data.guess,
-          recordId: response.data.recordId
-        });
-      })
-      .catch(e => {
-        let errorMessage = e + '';
-
-        if (e.response && e.response.data) {
-          errorMessage += '\n message: ' + e.response.data.message;
-        }
-
-        alert(errorMessage);
-      });
+    this.api.createRecord(this.state.ride)
+      .then(this.afterRecordSaved.bind(this));
   }
 
   saveResult() {
@@ -95,26 +96,8 @@ export default class RideForm extends Component {
       lift: correctLift
     };
 
-    // should be PUT but whatever for now
-    Axios.patch('/api/record/' + this.state.recordId, postData)
-      .then(() => {
-        this.setState(this.getInitialState());
-      })
-      .catch(e => {
-        let errorMessage = e + '';
-
-        if (e.response && e.response.data) {
-          errorMessage += '\n message: ' + e.response.data.message;
-        }
-
-        alert(errorMessage);
-      });
-  }
-
-  setLiftChange(event) {
-    this.setState({
-      correctLift: event.target.value
-    });
+    this.api.patchRecord(this.state.recordId, postData)
+      .then(() => this.setState(this.getInitialState()));
   }
 
   renderForm() {
@@ -153,8 +136,8 @@ export default class RideForm extends Component {
 
         <hr />
         <div className="form-group">
-          <label htmlFor="time">Please fill in the lift:</label>
-          <input type="text" className="form-control" id="lift" onChange={this.setLiftChange.bind(this)} />
+          <span>Please select the lift:</span>
+          <LiftSelector liftChange={this.onLiftChange.bind(this)}></LiftSelector>
         </div>
 
         <hr />
