@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 
 export default class Table extends Component {
@@ -14,7 +15,7 @@ export default class Table extends Component {
   renderRows() {
     return this.props.records.map((r, i) => {
       return (<tr key={'row-' + i}>{this.renderCells(r, i)}</tr>);
-    })
+    });
   }
 
   render() {
@@ -32,3 +33,7 @@ export default class Table extends Component {
     );
   }
 }
+
+Table.propTypes = {
+  records: PropTypes.array
+};

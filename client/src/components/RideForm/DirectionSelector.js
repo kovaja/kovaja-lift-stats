@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const DIRECTIONS = [-1, 1];
 
@@ -34,7 +35,7 @@ export default class DirectionSelector extends Component {
         onClick={this.changeDirection.bind(this, directionValue)}
         disabled={this.state.direction === directionValue}
       >
-       {'Direction ' + this.getDirection(directionValue)}
+        {'Direction ' + this.getDirection(directionValue)}
       </button>
     );
   }
@@ -53,3 +54,7 @@ export default class DirectionSelector extends Component {
     );
   }
 }
+
+DirectionSelector.propTypes = {
+  directionChange: PropTypes.func
+};

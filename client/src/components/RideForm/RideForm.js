@@ -87,11 +87,9 @@ export default class RideForm extends Component {
   saveResult() {
     const correctLift = parseInt(this.state.correctLift);
     if (isNaN(correctLift) || correctLift < 1 || correctLift > 4) {
-      alert('Please fill in correct lift number [1,2,3,4]')
+      alert('Please fill in correct lift number [1,2,3,4]');
       return;
     }
-
-    console.log(correctLift);
 
     const postData = {
       lift: correctLift
@@ -99,7 +97,7 @@ export default class RideForm extends Component {
 
     // should be PUT but whatever for now
     Axios.patch('/api/record/' + this.state.recordId, postData)
-      .then(response => {
+      .then(() => {
         this.setState(this.getInitialState());
       })
       .catch(e => {
@@ -160,10 +158,10 @@ export default class RideForm extends Component {
         </div>
 
         <hr />
-          <span>Thank you! See you next ride...</span>
-          <button style={{ 'display': 'block' }} className="btn btn-primary" onClick={this.saveResult.bind(this)}>
-            Save result
-          </button>
+        <span>Thank you! See you next ride...</span>
+        <button style={{ 'display': 'block' }} className="btn btn-primary" onClick={this.saveResult.bind(this)}>
+          Save result
+        </button>
       </div>
     );
   }

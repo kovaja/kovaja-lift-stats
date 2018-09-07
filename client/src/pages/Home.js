@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom';
 import Statistics from './Statistics';
 import Ride from './Ride';
 import Header from '../components/Header';

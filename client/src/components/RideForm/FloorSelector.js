@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-const FLOORS = [1,3,6,7,14]
+const FLOORS = [1,3,6,7,14];
 
 export default class FloorSelector extends Component {
 
@@ -32,7 +33,7 @@ export default class FloorSelector extends Component {
         onClick={this.changeFloor.bind(this, floorValue)}
         disabled={this.state.floor === floorValue}
       >
-       {'Floor ' + floorValue}
+        {'Floor ' + floorValue}
       </button>
     );
   }
@@ -51,3 +52,7 @@ export default class FloorSelector extends Component {
     );
   }
 }
+
+FloorSelector.propTypes = {
+  floorChange: PropTypes.func
+};
