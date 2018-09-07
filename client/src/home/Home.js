@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Ride from './pages/ride/Ride';
+import Record from './pages/record/Record';
 import Statistics from './pages/statistics/Statistics';
 import About from './pages/about/About';
 
@@ -11,7 +11,7 @@ export default class Home extends Component {
       <div className="lift-stats-home container-fluid">
         <Header></Header>
         <Switch>
-          <Route exact path='/' component={Ride}/>
+          <Route exact path='/' component={Record}/>
           <Route path='/statistics' component={Statistics}/>
           <Route path='/about' component={About}/>
         </Switch>

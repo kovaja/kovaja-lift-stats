@@ -6,7 +6,7 @@ import ApiService from '../../services/api.service';
 
 const DAYS = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-export default class Ride extends Component {
+export default class Record extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
