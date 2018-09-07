@@ -1,4 +1,5 @@
 const Record = require('../../../database/schemas/record.schema');
+const RecordModel = require('../../../database/models/record.model');
 
 const LIFTS = [1, 2, 3, 4];
 const API_NAME = 'Record';
@@ -79,23 +80,6 @@ module.exports = class RecordService {
     return new Record(recordData).save();
   }
 
-  updateRecordInDB(recordId, partialModel) {
-    const cb = (resolve, reject) => {
-      const query = { _id: recordId };
-
-      Record.updateOne(query, partialModel, {}, (err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve();
-      });
-    };
-
-    return new Promise(cb);
-  }
-
   computeGuess(data) {
     console.debug('RIDE DATA: ', data);
     return LIFTS[Math.floor(Math.random() * LIFTS.length)];
@@ -126,34 +110,25 @@ module.exports = class RecordService {
       return Promise.reject(validationError);
     }
 
-    return this.updateRecordInDB(id, partialModel);
+    return RecordModel.update(id, partialModel);
   }
 
   readRecords() {
-    const cb = (resolve, reject) => {
-      Record.find({}, (err, records) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        const filteredRecords = records
-          .filter(r => !r.fake)
-          .map(r => {
-            return {
-              hour: r.hour,
-              day: r.day,
-              floor: r.floor,
-              direction: r.direction,
-              guess: r.guess,
-              lift: r.lift
-            };
-          });
-
-        resolve(filteredRecords);
-      });
+    const createResponseRecord = (record) => {
+      return {
+        hour: record.hour,
+        day: record.day,
+        floor: record.floor,
+        direction: record.direction,
+        guess: record.guess,
+        lift: record.lift
+      };
     };
 
-    return new Promise(cb);
+    const processRecords = (records) => {
+      return records.filter(r => !r.fake).map(createResponseRecord);
+    };
+
+    return RecordModel.readAll().then(processRecords);
   }
 };

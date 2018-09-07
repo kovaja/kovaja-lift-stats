@@ -15,12 +15,23 @@ module.exports = class Api {
     response.status(200).send(responseData);
   }
 
-  sendError(response, errorMessage) {
-    const error = {
-      message: errorMessage
+  sendError(response, error) {
+    let message = 'unknown error';
+
+    if (typeof error === 'string') {
+      message = error;
+    }
+
+    if (error !== null && typeof error === 'object' && error.message) {
+      message = error.message;
+    }
+
+    const errorResponse = {
+      message: message
     };
 
-    response.status(500).send(error);
+    console.error(error);
+    response.status(500).send(errorResponse);
   }
 
   handlePostRequest(handler) {
