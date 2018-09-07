@@ -71,31 +71,24 @@ export default class Record extends Component {
     });
   }
 
-  submitRideData() {
-    const floorNotValid = this.state.floor === null;
-    const directionNotValid = this.state.direction === null;
-
-    if (floorNotValid || directionNotValid) {
-      alert('Please fill the full form');
-      return;
-    }
-
+  submitRecord() {
     this.api.createRecord(this.state.ride)
       .then(this.afterRecordSaved.bind(this));
   }
 
-  saveResult() {
-    const correctLift = parseInt(this.state.correctLift);
+  updateRecord() {
+    const correctLift = this.state.correctLift;
+
     if (isNaN(correctLift) || correctLift < 1 || correctLift > 4) {
       alert('Please select lift number');
       return;
     }
 
-    const postData = {
+    const data = {
       lift: correctLift
     };
 
-    this.api.patchRecord(this.state.recordId, postData)
+    this.api.patchRecord(this.state.recordId, data)
       .then(() => this.setState(this.getInitialState()));
   }
 
@@ -124,7 +117,7 @@ export default class Record extends Component {
         </DummySelector>
 
 
-        <button style={submitStyle} className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
+        <button style={submitStyle} className="btn btn-primary" onClick={this.submitRecord.bind(this)}>
           Submit
         </button>
 
@@ -155,7 +148,7 @@ export default class Record extends Component {
 
         <hr />
         <span>Thank you! See you next ride...</span>
-        <button style={{ 'display': 'block' }} className="btn btn-primary" onClick={this.saveResult.bind(this)}>
+        <button style={{ 'display': 'block' }} className="btn btn-primary" onClick={this.updateRecord.bind(this)}>
           Save result
         </button>
       </div>
