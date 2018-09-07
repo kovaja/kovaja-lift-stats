@@ -8,18 +8,30 @@ const FILE_NAME = 'export';
 const FILE_EXTENSION = '.json';
 
 module.exports = class AdminService {
+  clearCallback(criteria, resolve, reject, err, data) {
+    err ? reject(err) : resolve(`[${API_NAME} API]: ${data.n} ${criteria} records deleted.`);
+  }
+
+  /**
+   * CLEAR RECORDS WITHOUT GUESS
+   */
+  clearWithoutGuess() {
+    const cb = (resolve, reject) => {
+      const query = { guess: null };
+
+      Record.deleteMany(query, this.clearCallback.bind(this, 'without guess', resolve, reject));
+    };
+
+    return new Promise(cb);
+  }
+
+  /**
+   * CLEAR RESULT WITH FAKE === TRUE
+   */
   clearFakeRecords() {
     const cb = (resolve, reject) => {
       const query = { fake: true };
-
-      Record.deleteMany(query, (err) => {
-        if(err) {
-          reject(err);
-          return;
-        }
-
-        resolve(`[${API_NAME} API]: Fake records deleted.`);
-      });
+      Record.deleteMany(query, this.clearCallback.bind(this, 'fake', resolve, reject));
     };
 
     return new Promise(cb);

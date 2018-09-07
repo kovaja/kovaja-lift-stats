@@ -65,15 +65,6 @@ module.exports = class RecordService {
     return null;
   }
 
-  createRecordInDB(data, guess) {
-    // TODO: make env files
-
-
-
-
-    return new Record(recordData).save();
-  }
-
   computeGuess(data) {
     console.debug('RIDE DATA: ', data);
     return LIFTS[Math.floor(Math.random() * LIFTS.length)];

@@ -14,6 +14,9 @@ const update = (id, data, resolve, reject) => {
   Record.updateOne(query, data, {}, (err) => err ? reject(err) : resolve());
 };
 
+/**
+ * Promise lake wrapper over the Mongoose schema
+ */
 module.exports = {
   readAll: () => new Promise(readAll),
   create: (data) => create(data),
