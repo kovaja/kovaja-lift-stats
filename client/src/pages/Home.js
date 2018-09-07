@@ -15,7 +15,7 @@ export default class Home extends Component {
           <Route path='/statistics' component={Statistics}/>
           <Route path='/about' component={About}/>
         </Switch>
-        <span style={{color: '#b3b0b0', fontSize: '10px'}}>Version: (0.0.3)</span>
+        <span style={{color: '#b3b0b0', fontSize: '10px'}}>Version: (0.0.4)</span>
       </div>
     );
   }
