@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import FloorSelector from './components/FloorSelector';
-import DirectionSelector from './components/DirectionSelector';
-import LiftSelector from './components/LiftSelector';
 import ApiService from '../../services/api.service';
 import appData from '../../tools/appData';
+import DummySelector from './components/DummySelector';
 
 const DAYS = appData.days;
 
@@ -110,8 +108,20 @@ export default class Record extends Component {
       <div>
         <span>Time: {this.state.initTimeString}</span>
 
-        <FloorSelector floorChange={this.onFloorChange.bind(this)}></FloorSelector>
-        <DirectionSelector directionChange={this.onDirectionChange.bind(this)}></DirectionSelector>
+        <DummySelector
+          options={appData.floors}
+          onChange={this.onFloorChange.bind(this)}
+          prefix={'Floor'}
+          buttonType={'info'}
+        >
+        </DummySelector>
+        <DummySelector
+          options={appData.directions}
+          onChange={this.onDirectionChange.bind(this)}
+          prefix={'Direction'}
+          buttonType={'warning'}
+        >
+        </DummySelector>
 
 
         <button style={submitStyle} className="btn btn-primary" onClick={this.submitRideData.bind(this)}>
@@ -134,7 +144,13 @@ export default class Record extends Component {
         <hr />
         <div className="form-group">
           <span>Please select the lift:</span>
-          <LiftSelector liftChange={this.onLiftChange.bind(this)}></LiftSelector>
+          <DummySelector
+            options={appData.lifts}
+            onChange={this.onLiftChange.bind(this)}
+            prefix={''}
+            buttonType={'info'}
+          >
+          </DummySelector>
         </div>
 
         <hr />
@@ -150,7 +166,7 @@ export default class Record extends Component {
     return (
       <div className="row">
         <div className="col-xs-12 page">
-          { this.state.guess ? this.renderResult() : this.renderForm() }
+          {this.state.guess ? this.renderResult() : this.renderForm()}
         </div>
       </div>
     );
