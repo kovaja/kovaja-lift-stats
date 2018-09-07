@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import appData from '../../../tools/appData';
 
-const FLOORS = [1,3,6,7,14];
+const FLOORS = appData.floors;
 
 export default class FloorSelector extends Component {
 

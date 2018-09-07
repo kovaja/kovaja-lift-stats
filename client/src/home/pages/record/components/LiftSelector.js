@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import appData from '../../../tools/appData';
 
-const LIFTS = [1,2,3,4];
+const LIFTS = appData.lifts;
 
 export default class LiftSelector extends Component {
 

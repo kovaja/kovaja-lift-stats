@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import appData from '../../../tools/appData';
 
-const DIRECTIONS = [-1, 1];
+const DIRECTIONS = appData.directions;
 
 export default class DirectionSelector extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class DirectionSelector extends Component {
     return (
       <button
         className="btn btn-md btn-warning"
-        key={'direction-' + directionValue}
+        key={'direction-' + (directionValue)}
         style={buttonStyle}
         onClick={this.changeDirection.bind(this, directionValue)}
         disabled={this.state.direction === directionValue}

@@ -3,8 +3,9 @@ import FloorSelector from './components/FloorSelector';
 import DirectionSelector from './components/DirectionSelector';
 import LiftSelector from './components/LiftSelector';
 import ApiService from '../../services/api.service';
+import appData from '../../tools/appData';
 
-const DAYS = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAYS = appData.days;
 
 export default class Record extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ export default class Record extends Component {
   saveResult() {
     const correctLift = parseInt(this.state.correctLift);
     if (isNaN(correctLift) || correctLift < 1 || correctLift > 4) {
-      alert('Please fill in correct lift number [1,2,3,4]');
+      alert('Please select lift number');
       return;
     }
 
