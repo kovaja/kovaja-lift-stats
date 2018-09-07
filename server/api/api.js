@@ -82,6 +82,7 @@ module.exports = class Api {
 
     const gets = [
       ['/admin/clearFakeRecords', this.adminService.clearFakeRecords.bind(this.adminService)],
+      ['/admin/exportRecords', this.adminService.exportRecords.bind(this.adminService)],
       ['/record/', this.recordService.readRecords.bind(this.recordService)]
     ];
 

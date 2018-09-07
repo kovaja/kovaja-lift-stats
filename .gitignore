@@ -10,3 +10,6 @@ server/assets/index.js
 
 # Includes bootstrap
 server/assets/public/css
+
+# Exported data
+server/_data
