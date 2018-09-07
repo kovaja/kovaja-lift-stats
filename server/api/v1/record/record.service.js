@@ -4,6 +4,8 @@ const RecordModel = require('../../../database/models/record.model');
 const LIFTS = [1, 2, 3, 4];
 const API_NAME = 'Record';
 
+const isDevEnvironment = __dirname.indexOf('C:') !== -1;
+
 module.exports = class RecordService {
   validateModelToCreate(data) {
     if (data === null) {
@@ -65,17 +67,9 @@ module.exports = class RecordService {
 
   createRecordInDB(data, guess) {
     // TODO: make env files
-    const isDevEnvironment = __dirname.indexOf('C:') !== -1;
 
-    const recordData = {
-      hour: data.hour,
-      day: data.day,
-      floor: data.floor,
-      direction: data.direction,
-      guess: guess,
-      lift: null,
-      fake: isDevEnvironment
-    };
+
+
 
     return new Record(recordData).save();
   }
@@ -94,13 +88,17 @@ module.exports = class RecordService {
 
     const guess = this.computeGuess(model);
 
-    return this.createRecordInDB(model, guess)
-      .then((storedRecord) => {
-        return {
-          guess: storedRecord.guess,
-          recordId: storedRecord._id
-        };
-      });
+    const recordData = {
+      hour: model.hour,
+      day: model.day,
+      floor: model.floor,
+      direction: model.direction,
+      guess: guess,
+      lift: null,
+      fake: isDevEnvironment
+    };
+
+    return RecordModel.create(recordData);
   }
 
   patchRecord(id, partialModel) {
@@ -126,7 +124,7 @@ module.exports = class RecordService {
     };
 
     const processRecords = (records) => {
-      return records.filter(r => !r.fake).map(createResponseRecord);
+      return records.filter(r => isDevEnvironment || !r.fake).map(createResponseRecord);
     };
 
     return RecordModel.readAll().then(processRecords);

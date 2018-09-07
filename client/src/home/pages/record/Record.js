@@ -64,10 +64,10 @@ export default class Record extends Component {
     });
   }
 
-  afterRecordSaved(serverData) {
+  afterRecordSaved(record) {
     this.setState({
-      guess: serverData.guess,
-      recordId: serverData.recordId
+      guess: record.guess,
+      recordId: record._id
     });
   }
 
