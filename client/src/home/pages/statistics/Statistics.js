@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import Table from './components/table/Table';
 import ApiService from '../../services/api.service';
 

@@ -6,7 +6,7 @@ const create = (data) => {
 
 const readAll = (resolve, reject) => {
   Record.find({}, (err, records) => err ? reject(err) : resolve(records));
-}
+};
 
 const update = (id, data, resolve, reject) => {
   const query = { _id: id };

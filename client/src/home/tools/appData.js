@@ -4,4 +4,4 @@ export default {
   lifts: [1, 2, 3, 4],
   floors: [1, 3, 6, 7, 14],
   directions: [-1, 1]
-}
+};

@@ -12,5 +12,5 @@ export default function ApiTool() {
         readAll: () => `${apiprefix}/${subUrl}`
       };
     }
-  }
+  };
 }

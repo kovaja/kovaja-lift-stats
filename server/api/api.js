@@ -8,7 +8,7 @@ const initalizeRouter = (express) => {
   new AdminRoute(router);
 
   return router;
-}
+};
 
 module.exports = {
   initalizeRouter: initalizeRouter

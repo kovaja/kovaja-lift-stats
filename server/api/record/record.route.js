@@ -17,7 +17,7 @@ module.exports = class RecordRoute {
 
     this.service.readRecords()
       .then(responseData => response.status(200).send(responseData))
-      .catch(ApiHelper.errorSender(response))
+      .catch(ApiHelper.errorSender(response));
   }
 
   create(request, response) {
@@ -25,7 +25,7 @@ module.exports = class RecordRoute {
 
     this.service.createRecord(request.body)
       .then(responseData => response.status(201).send(responseData))
-      .catch(ApiHelper.errorSender(response))
+      .catch(ApiHelper.errorSender(response));
   }
 
   patch(request, response) {
@@ -33,6 +33,6 @@ module.exports = class RecordRoute {
 
     this.service.patchRecord(request.params.id, request.body)
       .then(responseData => response.status(200).send(responseData))
-      .catch(ApiHelper.errorSender(response))
+      .catch(ApiHelper.errorSender(response));
   }
 };

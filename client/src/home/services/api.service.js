@@ -1,4 +1,4 @@
-import ApiTool from "../tools/api.tool";
+import ApiTool from '../tools/api.tool';
 import Axios from 'axios';
 
 export default class ApiService {

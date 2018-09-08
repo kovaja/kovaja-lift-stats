@@ -9,13 +9,15 @@ const FILE_EXTENSION = '.json';
 
 module.exports = class AdminService {
   getClearQuery(key) {
-    switch(key) {
-      case 'fake':
-        return {fake: true};
-      case 'guess':
-        return {guess: null};
-      default:
-        return {};
+    switch (key) {
+
+    case 'fake':
+      return { fake: true };
+    case 'guess':
+      return { guess: null };
+    default:
+      return {};
+
     }
   }
 
@@ -33,7 +35,7 @@ module.exports = class AdminService {
 
     console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
 
-    fs.writeFile(target, JSON.stringify(filteredRecords), {encoding: 'utf8'}, (err) => {
+    fs.writeFile(target, JSON.stringify(filteredRecords), { encoding: 'utf8' }, (err) => {
       if (err) {
         throw err;
       }
