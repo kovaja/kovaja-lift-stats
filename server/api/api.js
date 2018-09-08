@@ -1,5 +1,5 @@
-const RecordService = require('./v1/record/record.service');
-const AdminService = require('./v1/admin/admin.service');
+const RecordService = require('./record/record.service');
+const AdminService = require('./admin/admin.service');
 
 module.exports = class Api {
   constructor() {

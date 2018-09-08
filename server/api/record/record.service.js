@@ -1,4 +1,4 @@
-const RecordModel = require('../../../database/models/record.model');
+const RecordModel = require('../../database/models/record.model');
 
 const LIFTS = [1, 2, 3, 4];
 const API_NAME = 'Record';

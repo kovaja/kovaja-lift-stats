@@ -1,5 +1,5 @@
-const Record = require('../../../database/schemas/record.schema');
-const RecordModel = require('../../../database/models/record.model');
+const Record = require('../../database/schemas/record.schema');
+const RecordModel = require('../../database/models/record.model');
 const fs = require('fs');
 
 const API_NAME = 'Admin';
