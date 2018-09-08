@@ -15,7 +15,7 @@ export default class Record extends Component {
   getInitialState() {
     const now = new Date();
     const hour = now.getHours() + 1;
-    const day = now.getDay();
+    const day = now.getDay() || 6;
 
     return {
       ride: {
