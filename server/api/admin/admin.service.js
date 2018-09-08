@@ -1,4 +1,3 @@
-const Record = require('../../database/schemas/record.schema');
 const RecordModel = require('../../database/models/record.model');
 const fs = require('fs');
 
@@ -27,36 +26,26 @@ module.exports = class AdminService {
       .then(number => `[${SERVICE_NAME}]: ${number} records deleted. Query: ${JSON.stringify(query)}`);
   }
 
+  writeRecordsToFile(records) {
+    const filteredRecords = records.filter(r => !r.fake);
+    const timestampString = '-' + new Date().toDateString().split(' ').join('-');
+    const target = DATA_PATH + EXPORT_DIR + FILE_NAME + timestampString + FILE_EXTENSION;
+
+    console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
+
+    fs.writeFile(target, JSON.stringify(filteredRecords), {encoding: 'utf8'}, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      return `[${SERVICE_NAME}]: ${records.length} records exported.`;
+    });
+  }
+
   /**
    * EXPORTS NOT FAKE DATA IN THE DATABASE
    */
   exportRecords() {
-    const cb = (resolve, reject) => {
-
-      Record.find({}, (err, records) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        const filteredRecords = records.filter(r => !r.fake);
-        const timestampString = '-' + new Date().toDateString().split(' ').join('-');
-        const target = DATA_PATH + EXPORT_DIR + FILE_NAME + timestampString + FILE_EXTENSION;
-
-        console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
-
-        fs.writeFile(target, JSON.stringify(filteredRecords), {encoding: 'utf8'}, (err) => {
-          if (err) {
-            console.error(err);
-            reject(err);
-            return;
-          }
-
-          resolve(`[${SERVICE_NAME}]: ${records.length} records exported.`);
-        });
-      });
-    };
-
-    return new Promise(cb);
+    return RecordModel.readAll().then(this.writeRecordsToFile.bind(this));
   }
 };
