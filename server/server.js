@@ -8,8 +8,7 @@ const PORT = process.env.PORT || 8000;
 const BUILD_PATH = path.join(__dirname, 'assets');
 
 const Api = require('./api/api');
-const api = new Api();
-const router = api.initalizeRouter(express);
+const router = Api.initalizeRouter(express);
 
 const Database = require('./database/database');
 const database = new Database();

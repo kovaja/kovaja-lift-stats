@@ -2,37 +2,29 @@ const Record = require('../../database/schemas/record.schema');
 const RecordModel = require('../../database/models/record.model');
 const fs = require('fs');
 
-const API_NAME = 'Admin';
+const SERVICE_NAME = 'Admin';
 const DATA_PATH = 'server/_data';
 const EXPORT_DIR = '/output/';
 const FILE_NAME = 'export';
 const FILE_EXTENSION = '.json';
 
 module.exports = class AdminService {
-  clearCallback(criteria, resolve, reject, err, data) {
-    err ? reject(err) : resolve(`[${API_NAME} API]: ${data.n} ${criteria} records deleted.`);
+  getClearQuery(key) {
+    switch(key) {
+      case 'fake':
+        return {fake: true};
+      case 'guess':
+        return {guess: null};
+      default:
+        return {};
+    }
   }
 
-  /**
-   * CLEAR RECORDS WITHOUT GUESS
-   */
-  clearWithoutGuess() {
-    const criteria = 'without guess';
-    const query = { guess: null };
+  clear(key) {
+    const query = this.getClearQuery(key);
 
     return RecordModel.deleteMany(query)
-      .then(number => `[${API_NAME} API]: ${number} ${criteria} records deleted.`);
-  }
-
-  /**
-   * CLEAR RESULT WITH FAKE === TRUE
-   */
-  clearFakeRecords() {
-    const criteria = 'fake';
-    const query = { fake: true };
-
-    return RecordModel.deleteMany(query)
-      .then(number => `[${API_NAME} API]: ${number} ${criteria} records deleted.`);
+      .then(number => `[${SERVICE_NAME}]: ${number} records deleted. Query: ${JSON.stringify(query)}`);
   }
 
   /**
@@ -51,7 +43,7 @@ module.exports = class AdminService {
         const timestampString = '-' + new Date().toDateString().split(' ').join('-');
         const target = DATA_PATH + EXPORT_DIR + FILE_NAME + timestampString + FILE_EXTENSION;
 
-        console.debug(`[${API_NAME} API]: Will write file with ${records.length} records to ${target}`);
+        console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
 
         fs.writeFile(target, JSON.stringify(filteredRecords), {encoding: 'utf8'}, (err) => {
           if (err) {
@@ -60,7 +52,7 @@ module.exports = class AdminService {
             return;
           }
 
-          resolve(`[${API_NAME} API]: Data exporterd.`);
+          resolve(`[${SERVICE_NAME}]: ${records.length} records exported.`);
         });
       });
     };

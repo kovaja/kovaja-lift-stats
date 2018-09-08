@@ -65,7 +65,7 @@ module.exports = class RecordService {
   }
 
   computeGuess(data) {
-    console.debug('RIDE DATA: ', data);
+    console.debug('TODO use ride data to get guess: ', data);
     return LIFTS[Math.floor(Math.random() * LIFTS.length)];
   }
 
