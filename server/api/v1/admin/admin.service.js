@@ -1,4 +1,5 @@
 const Record = require('../../../database/schemas/record.schema');
+const RecordModel = require('../../../database/models/record.model');
 const fs = require('fs');
 
 const API_NAME = 'Admin';
@@ -16,27 +17,27 @@ module.exports = class AdminService {
    * CLEAR RECORDS WITHOUT GUESS
    */
   clearWithoutGuess() {
-    const cb = (resolve, reject) => {
-      const query = { guess: null };
+    const criteria = 'without guess';
+    const query = { guess: null };
 
-      Record.deleteMany(query, this.clearCallback.bind(this, 'without guess', resolve, reject));
-    };
-
-    return new Promise(cb);
+    return RecordModel.deleteMany(query)
+      .then(number => `[${API_NAME} API]: ${number} ${criteria} records deleted.`);
   }
 
   /**
    * CLEAR RESULT WITH FAKE === TRUE
    */
   clearFakeRecords() {
-    const cb = (resolve, reject) => {
-      const query = { fake: true };
-      Record.deleteMany(query, this.clearCallback.bind(this, 'fake', resolve, reject));
-    };
+    const criteria = 'fake';
+    const query = { fake: true };
 
-    return new Promise(cb);
+    return RecordModel.deleteMany(query)
+      .then(number => `[${API_NAME} API]: ${number} ${criteria} records deleted.`);
   }
 
+  /**
+   * EXPORTS NOT FAKE DATA IN THE DATABASE
+   */
   exportRecords() {
     const cb = (resolve, reject) => {
 

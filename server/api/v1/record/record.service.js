@@ -1,4 +1,3 @@
-const Record = require('../../../database/schemas/record.schema');
 const RecordModel = require('../../../database/models/record.model');
 
 const LIFTS = [1, 2, 3, 4];

@@ -92,7 +92,7 @@ module.exports = class Api {
     const router = express.Router();
 
     const gets = [
-      ['/admin/clearFakeRecords', this.adminService.clearFakeRecords.bind(this.adminService)],
+      ['/admin/clear/:key', this.adminService.clearFakeRecords.bind(this.adminService)],
       ['/admin/exportRecords', this.adminService.exportRecords.bind(this.adminService)],
       ['/record/', this.recordService.readRecords.bind(this.recordService)]
     ];
