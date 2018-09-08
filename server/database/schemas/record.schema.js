@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 /* eslint-disable indent */
 var RecordSchema = new Schema({
+    timestamp: Number,
     hour: Number,
     day: Number,
     floor: Number,

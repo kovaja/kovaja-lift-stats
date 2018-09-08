@@ -19,6 +19,7 @@ export default class Record extends Component {
 
     return {
       ride: {
+        timestamp: now.getTime(),
         hour: hour,
         day: day,
         floor: null,
