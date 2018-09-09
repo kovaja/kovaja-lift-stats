@@ -100,7 +100,8 @@ export default class Record extends Component {
 
     return (
       <div>
-        <span>Time: {this.state.initTimeString}</span>
+        <div>Time: {this.state.initTimeString}</div>
+        <hr />
 
         <DummySelector
           options={appData.floors}
@@ -117,7 +118,7 @@ export default class Record extends Component {
         >
         </DummySelector>
 
-
+        <hr />
         <button style={submitStyle} className="btn btn-primary" onClick={this.submitRecord.bind(this)}>
           Submit
         </button>
@@ -148,8 +149,8 @@ export default class Record extends Component {
         </div>
 
         <hr />
-        <span>Thank you! See you next ride...</span>
-        <button style={{ 'display': 'block' }} className="btn btn-primary" onClick={this.updateRecord.bind(this)}>
+        <div style={{ 'marginBottom': '10px'}}>Thank you! See you next ride...</div>
+        <button className="btn btn-primary" onClick={this.updateRecord.bind(this)}>
           Save result
         </button>
       </div>
@@ -158,7 +159,7 @@ export default class Record extends Component {
 
   render() {
     return (
-      <div className="fill">
+      <div className="fill" style={{ 'textAlign': 'center', padding: '20px 0' }}>
         {this.state.guess ? this.renderResult() : this.renderForm()}
       </div>
     );

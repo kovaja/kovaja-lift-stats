@@ -23,7 +23,12 @@ export default class Home extends Component {
         </div>
         <div className="row">
           <div className="col-12">
-            <span style={{ color: '#b3b0b0', fontSize: '10px' }}>Version: ({appData.version})</span>
+            <div className="fill">
+            <div style={{ color: '#333333', fontSize: '10px', padding: '5px', textAlign: 'right' }}>
+              by kovaja | 2018 | Version: ({appData.version})
+            </div>
+            </div>
+
           </div>
         </div>
 
@@ -32,7 +37,7 @@ export default class Home extends Component {
 
         <style jsx>{`
           .col-12 {
-            padding: 0 20px;
+            padding: 10px 20px;
           }
         `}</style>
       </div>
