@@ -20,14 +20,12 @@ export default class Statistics extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-xs-12 page">
+      <div>
           {
             this.state.records.length > 0
               ? <Table records={this.state.records}></Table>
               : <span>No records yet!</span>
           }
-        </div>
       </div>
     );
   }

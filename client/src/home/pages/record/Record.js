@@ -158,10 +158,8 @@ export default class Record extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-xs-12 page">
-          {this.state.guess ? this.renderResult() : this.renderForm()}
-        </div>
+      <div className="fill">
+        {this.state.guess ? this.renderResult() : this.renderForm()}
       </div>
     );
   }
