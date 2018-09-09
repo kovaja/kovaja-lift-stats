@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './components/Header';
 import Record from './pages/record/Record';
 import Statistics from './pages/statistics/Statistics';
@@ -14,14 +14,21 @@ export default class Home extends Component {
         <div className="row">
           <div className="col-12">
             <Switch>
-              <Route exact path='/' component={Record} />
+              <Route exact path="/" render={() => (<Redirect to="/record"/>)} />
+              <Route exact path='/record' component={Record} />
               <Route path='/statistics' component={Statistics} />
               <Route path='/about' component={About} />
             </Switch>
           </div>
         </div>
+        <div className="row">
+          <div className="col-12">
+            <span style={{ color: '#b3b0b0', fontSize: '10px' }}>Version: ({appData.version})</span>
+          </div>
+        </div>
 
-        <span style={{ color: '#b3b0b0', fontSize: '10px' }}>Version: ({appData.version})</span>
+
+
 
         <style jsx>{`
           .col-12 {

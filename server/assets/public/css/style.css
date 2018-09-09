@@ -1,7 +1,27 @@
 body {
-  background-color: #f5f5f5
+  background-color: #f5f5f5;
 }
 
 .fill {
-  background-image: radial-gradient(circle, #b5b5b5, #b5b5b5, #b6b4b5, #b6b3b4, #b7b3b3);
+  background-color: #ffffff;
+  -webkit-box-shadow: 6px 7px 31px -4px rgba(130,130,130,1);
+  -moz-box-shadow: 6px 7px 31px -4px rgba(130,130,130,1);
+  box-shadow: 6px 7px 31px -4px rgba(130,130,130,1);
+
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border: 0px solid #000000;
 }
+
+.nav-link {
+  font-weight: 600;
+  color: #000000;
+}
+
+.nav-link.active {
+  color: #ffb914;
+}
+/*
+ next color: #ffb914
+*/

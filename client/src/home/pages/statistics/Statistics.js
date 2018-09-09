@@ -20,7 +20,7 @@ export default class Statistics extends Component {
 
   render() {
     return (
-      <div>
+      <div className="fill">
           {
             this.state.records.length > 0
               ? <Table records={this.state.records}></Table>
