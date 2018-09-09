@@ -55,7 +55,7 @@ const sumUpArray = (array) => {
 };
 
 const computeSingleLiftGuess = (row, vector) => {
-  const weightedVector =  row.map((weight,i) => weight*vector[i]);
+  const weightedVector =  row.map((weight,i) => (weight*vector[i])/vector.length);
 
   console.debug('-- >weighted vector', weightedVector);
   return sumUpArray(weightedVector);
@@ -65,8 +65,7 @@ const getGuesses = (matrix, vector) => {
   return matrix.map(row => computeSingleLiftGuess(row, vector));
 }
 
-
-const computeGuess = (record, resolve, reject) => {
+const computeGuess = (record) => {
   const vector = getModelAsVector(record);
   console.debug('\n-- >vector:', vector);
 
