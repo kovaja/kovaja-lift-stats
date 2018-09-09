@@ -1,18 +1,10 @@
 const RecordModel = require('../../database/models/record.model');
-
-const LIFTS = [1, 2, 3, 4];
+const MathCore = require('../../core/math.core');
 const isDevEnvironment = __dirname.indexOf('C:') !== -1;
 
 module.exports = class RecordService {
-  computeGuess(data) {
-    console.debug('TODO use ride data to get guess: ', data);
-    return LIFTS[Math.floor(Math.random() * LIFTS.length)];
-  }
-
-  createRecord(model) {
-    const guess = this.computeGuess(model);
-
-    const recordData = {
+  createRecordObject(model, guess) {
+    return {
       timestamp: model.timestamp,
       hour: model.hour,
       day: model.day,
@@ -22,8 +14,12 @@ module.exports = class RecordService {
       lift: null,
       fake: isDevEnvironment
     };
+  }
 
-    return RecordModel.create(recordData);
+  createRecord(model) {
+    return MathCore
+      .computeGuess(model)
+      .then((guess) => RecordModel.create(this.createRecordObject(model, guess)));
   }
 
   patchRecord(id, partialModel) {

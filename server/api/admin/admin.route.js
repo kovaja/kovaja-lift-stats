@@ -8,7 +8,9 @@ module.exports = class RecordRoute {
     router
       .get('/admin/clear/:key', this.clear.bind(this))
       .get('/admin/exportRecords', this.export.bind(this))
-      .get('/admin/customUpdate', this.customUpdate.bind(this));
+      .get('/admin/customUpdate', this.customUpdate.bind(this))
+      .get('/admin/initializeWeights', this.initializeWeights.bind(this))
+      .get('/admin/tryWeights', this.tryWeights.bind(this));
 
   }
 
@@ -33,6 +35,22 @@ module.exports = class RecordRoute {
     ApiHelper.logRequest(request);
 
     this.service.customUpdate()
+      .then(responseData => response.status(200).send(responseData))
+      .catch(ApiHelper.errorSender(response));
+  }
+
+  initializeWeights(request, response) {
+    ApiHelper.logRequest(request);
+
+    this.service.initializeWeights()
+      .then(responseData => response.status(200).send(responseData))
+      .catch(ApiHelper.errorSender(response));
+  }
+
+  tryWeights(request, response) {
+    ApiHelper.logRequest(request);
+
+    this.service.tryWeights()
       .then(responseData => response.status(200).send(responseData))
       .catch(ApiHelper.errorSender(response));
   }

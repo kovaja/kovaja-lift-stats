@@ -1,4 +1,7 @@
 const RecordModel = require('../../database/models/record.model');
+const WieghtModel = require('../../database/models/weight.model');
+const MathCore = require('../../core/math.core');
+
 const fs = require('fs');
 
 const SERVICE_NAME = 'Admin';
@@ -6,6 +9,8 @@ const DATA_PATH = 'server/_data';
 const EXPORT_DIR = '/output/';
 const FILE_NAME = 'export';
 const FILE_EXTENSION = '.json';
+
+const LIFTS = [1, 2, 3, 4];
 
 module.exports = class AdminService {
   getClearQuery(key) {
@@ -69,12 +74,22 @@ module.exports = class AdminService {
       return record;
     };
 
+    // STRATEGY
+    const fillInLift = (record) => {
+      if (record.lift) {
+        return null;
+      }
+
+      record.lift = LIFTS[Math.floor(Math.random() * LIFTS.length)];
+      return record;
+    }
+
     return RecordModel.readAll().then(records => {
         let counter = 0;
         const promises = [];
 
         records.forEach((record) => {
-          const updatedRecord = updateTimestamp(record)
+          const updatedRecord = fillInLift(record)
 
           if (updatedRecord === null) {
             return;
@@ -86,5 +101,66 @@ module.exports = class AdminService {
 
         return Promise.all(promises).then(() => `[${SERVICE_NAME}]: ${counter} records updated.`);
     });
+  }
+
+  getInitWeights() {
+    const randWeight = () => {
+      return Math.floor(Math.random() * 100) / 100;
+    }
+
+    const w = [
+      [randWeight(), randWeight(), randWeight(), randWeight()],
+      [randWeight(), randWeight(), randWeight(), randWeight()],
+      [randWeight(), randWeight(), randWeight(), randWeight()],
+      [randWeight(), randWeight(), randWeight(), randWeight()]
+    ]
+
+    return w;
+  }
+
+  createSingleWeight(lift, i, weights) {
+    const weightData = {
+      lift: lift,
+      dayWeight: weights[i][0],
+      hourWeight: weights[i][1],
+      floorWeight: weights[i][2],
+      directionWeight: weights[i][3]
+    };
+
+    return WieghtModel.create(weightData);
+  }
+
+  initializeWeights() {
+    return WieghtModel.deleteMany({})
+      .then((n) => console.debug(n + ' weights removed'))
+      .then(() => {
+        const weights = this.getInitWeights();
+        const promises = LIFTS.map((lift, i) => this.createSingleWeight(lift, i, weights));
+
+        console.debug(weights);
+
+        return Promise.all(promises).then(() => weights);
+      })
+
+  }
+
+  tryWeights() {
+    return RecordModel.readAll()
+      .then(records => {
+        console.debug('---------------try try try try try--------------');
+
+        const promises = records.map(r => MathCore.computeGuess(r));
+
+        return Promise.all(promises).then(guesses => [records, guesses])
+      })
+      .then(data => {
+        const guesses = data[1];
+        const records = data[0];
+        const results = records.map((r,i) => [r.lift, guesses[i], r.lift === guesses[i]]);
+
+        console.debug('---------------try try try try try--------------');
+        return results;
+      })
+      .then(results => `[${SERVICE_NAME}]: Weights Tried.` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r  => r[2]).length + '/'  + results.length);
   }
 };
