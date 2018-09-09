@@ -11,7 +11,7 @@ export default class Header extends Component {
             <h1>
               Lift-stats
             </h1>
-            <span><i>Let me tell you what lift will arrive!!</i></span>
+            <span><i>Trying to be smart...</i></span>
 
           </div>
           <ul className="nav fill">

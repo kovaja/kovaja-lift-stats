@@ -1,5 +1,5 @@
 export default {
-  version: '0.0.8',
+  version: '0.0.9',
   days: ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'],
   lifts: [1, 2, 3, 4],
   floors: [1, 3, 6, 7, 14],
