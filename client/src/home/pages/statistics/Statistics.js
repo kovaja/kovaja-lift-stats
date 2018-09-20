@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from './components/table/Table';
+import RecordCard from './components/record-card/RecordCard';
 import ApiService from '../../services/api.service';
 
 export default class Statistics extends Component {
@@ -20,10 +20,10 @@ export default class Statistics extends Component {
 
   render() {
     return (
-      <div className="fill">
+      <div className="fill accordion">
           {
             this.state.records.length > 0
-              ? <Table records={this.state.records}></Table>
+              ? this.state.records.map((r,i) =><RecordCard key={i} record={r}></RecordCard>)
               : <span>No records yet!</span>
           }
       </div>
