@@ -65,7 +65,7 @@ const getGuesses = (matrix, vector) => {
   return matrix.map(row => computeSingleLiftGuess(row, vector));
 }
 
-const computeGuess = (record) => {
+const computeGuesses = (record) => {
   const vector = getModelAsVector(record);
   console.debug('\n-- >vector:', vector);
 
@@ -74,7 +74,7 @@ const computeGuess = (record) => {
     .then(matrix => getGuesses(matrix, vector))
     .then(guesses => {
       console.debug('-- >all guesses:\n', guesses);
-      return guesses.indexOf(Math.max(...guesses)) + 1;
+      return guesses;
     })
     .then(guess => {
       console.debug('-- >guess:', guess);
@@ -83,5 +83,5 @@ const computeGuess = (record) => {
 };
 
 module.exports = {
-  computeGuess: (record) => computeGuess(record)
+  computeGuesses: (record) => computeGuesses(record)
 };

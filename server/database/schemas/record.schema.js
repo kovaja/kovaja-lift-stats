@@ -9,6 +9,7 @@ var RecordSchema = new Schema({
     floor: Number,
     direction: Number,
     guess: Number,
+    results: [Number],
     lift: Number,
     fake: Boolean
 });

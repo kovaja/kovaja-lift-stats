@@ -149,18 +149,25 @@ module.exports = class AdminService {
       .then(records => {
         console.debug('---------------try try try try try--------------');
 
-        const promises = records.map(r => MathCore.computeGuess(r));
+        const promises = records.map(r => MathCore.computeGuesses(r));
 
         return Promise.all(promises).then(guesses => [records, guesses])
       })
       .then(data => {
         const guesses = data[1];
         const records = data[0];
-        const results = records.map((r,i) => [r.lift, guesses[i], r.lift === guesses[i]]);
+
+        const computeGuessedLift = (i) => guesses[i].indexOf(Math.max(...guesses[i])) + 1;
+
+        const results = records.map((r,i) => {
+          const guessedLift = computeGuessedLift(i);
+
+          return [r.lift, guessedLift, r.lift === guessedLift]
+        });
 
         console.debug('---------------try try try try try--------------');
         return results;
       })
-      .then(results => `[${SERVICE_NAME}]: Weights Tried.` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r  => r[2]).length + '/'  + results.length);
+      .then(results => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r  => r[2]).length + '/'  + results.length);
   }
 };
