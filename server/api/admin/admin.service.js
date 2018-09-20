@@ -41,20 +41,17 @@ module.exports = class AdminService {
 
     console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
 
-    fs.writeFile(target, JSON.stringify(filteredRecords), { encoding: 'utf8' }, (err) => {
-      if (err) {
-        throw err;
-      }
-
-      return `[${SERVICE_NAME}]: ${records.length} records exported.`;
-    });
+    fs.writeFileSync(target, JSON.stringify(filteredRecords), { encoding: 'utf8' });
+    return records.length;
   }
 
   /**
    * EXPORTS NOT FAKE DATA IN THE DATABASE
    */
   exportRecords() {
-    return RecordModel.readAll().then(this.writeRecordsToFile.bind(this));
+    return RecordModel.readAll()
+      .then(records => this.writeRecordsToFile(records))
+      .then(number => `[${SERVICE_NAME}]: ${number} records exported.`);
   }
 
   // ugly code for one time data update
