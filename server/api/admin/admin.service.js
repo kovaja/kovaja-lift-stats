@@ -1,6 +1,7 @@
 const RecordModel = require('../../database/models/record.model');
 const WieghtModel = require('../../database/models/weight.model');
 const MathCore = require('../../core/math.core');
+const UpdateStrategy = require('./update-strategies');
 
 const fs = require('fs');
 
@@ -16,12 +17,12 @@ module.exports = class AdminService {
   getClearQuery(key) {
     switch (key) {
 
-    case 'fake':
-      return { fake: true };
-    case 'guess':
-      return { guess: null };
-    default:
-      return {};
+      case 'fake':
+        return { fake: true };
+      case 'guess':
+        return { guess: null };
+      default:
+        return {};
 
     }
   }
@@ -59,48 +60,42 @@ module.exports = class AdminService {
   // ugly code for one time data update
   // most likely could be improved
   customUpdate() {
+    //const strategy = UpdateStrategy.fillInLift;
+    //const strategy = UpdateStrategy.updateTimestamp;
+    const strategy = UpdateStrategy.updateResults;
 
-    // STRATEGY
-    const updateTimestamp = (record) => {
-      if (record.timestamp) {
-        return null;
-      }
+    const updateAllRecords = (records) => {
+      const promises = records.map(r => strategy(r));
 
-      const now = new Date(); // 09.09.2018 0:43
-      const friday = new Date(now.getTime() - 40*60*60*1000); // 40 hours
-
-      record.timestamp = friday.getTime();
-
-      return record;
+      return Promise.all(promises)
     };
 
-    // STRATEGY
-    const fillInLift = (record) => {
-      if (record.lift) {
-        return null;
-      }
+    const processUpdatedRecords = (records) => {
+      return records.filter(r => r !== null);
+    };
 
-      record.lift = LIFTS[Math.floor(Math.random() * LIFTS.length)];
-      return record;
-    }
+    const updateRecordModels = (updatedRecords) => {
+      let counter = 0;
+      const promises = [];
 
-    return RecordModel.readAll().then(records => {
-        let counter = 0;
-        const promises = [];
 
-        records.forEach((record) => {
-          const updatedRecord = fillInLift(record)
+      updatedRecords.forEach((updatedRecord) => {
+        if (updatedRecord === null) {
+          return;
+        }
 
-          if (updatedRecord === null) {
-            return;
-          }
+        counter++;
+        promises.push(RecordModel.update(updatedRecord._id, updatedRecord));
+      });
 
-          counter++;
-          promises.push(RecordModel.update(record._id, updatedRecord));
-        });
+      return Promise.all(promises).then(() => counter);
+    };
 
-        return Promise.all(promises).then(() => `[${SERVICE_NAME}]: ${counter} records updated.`);
-    });
+    return RecordModel.readAll()
+      .then(updateAllRecords)
+      .then(processUpdatedRecords)
+      .then(updateRecordModels)
+      .then((number) => `[${SERVICE_NAME}]: ${number} records updated.`);
   }
 
   getInitWeights() {
@@ -159,7 +154,7 @@ module.exports = class AdminService {
 
         const computeGuessedLift = (i) => guesses[i].indexOf(Math.max(...guesses[i])) + 1;
 
-        const results = records.map((r,i) => {
+        const results = records.map((r, i) => {
           const guessedLift = computeGuessedLift(i);
 
           return [r.lift, guessedLift, r.lift === guessedLift]
@@ -168,6 +163,6 @@ module.exports = class AdminService {
         console.debug('---------------try try try try try--------------');
         return results;
       })
-      .then(results => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r  => r[2]).length + '/'  + results.length);
+      .then(results => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r => r[2]).length + '/' + results.length);
   }
 };

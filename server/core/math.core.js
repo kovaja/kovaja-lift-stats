@@ -30,11 +30,11 @@ const minMaxNormalize = (vector) => {
 const getModelAsVector = (model) => {
   const vector = [model.day, model.hour, model.floor, model.direction];
 
-  console.debug('-- > Normalize:');
+  // console.debug('-- > Normalize:');
 
   // const normalized = simpleNormalize(vector);
   const normalized = minMaxNormalize(vector);
-  console.debug(vector, '~~~>', normalized);
+  // console.debug(vector, '~~~>', normalized);
 
   return normalized;
 };
@@ -57,7 +57,7 @@ const sumUpArray = (array) => {
 const computeSingleLiftGuess = (row, vector) => {
   const weightedVector =  row.map((weight,i) => (weight*vector[i])/vector.length);
 
-  console.debug('-- >weighted vector', weightedVector);
+  // console.debug('-- >weighted vector', weightedVector);
   return sumUpArray(weightedVector);
 };
 
@@ -67,17 +67,17 @@ const getGuesses = (matrix, vector) => {
 
 const computeGuesses = (record) => {
   const vector = getModelAsVector(record);
-  console.debug('\n-- >vector:', vector);
+  // console.debug('\n-- >vector:', vector);
 
   return WeightModel.readAll()
     .then(getWeightsAsMatrix)
     .then(matrix => getGuesses(matrix, vector))
     .then(guesses => {
-      console.debug('-- >all guesses:\n', guesses);
+      // console.debug('-- >all guesses:\n', guesses);
       return guesses;
     })
     .then(guess => {
-      console.debug('-- >guess:', guess);
+      // console.debug('-- >guess:', guess);
       return guess;
     });
 };

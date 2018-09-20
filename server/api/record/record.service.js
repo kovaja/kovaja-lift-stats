@@ -35,6 +35,7 @@ module.exports = class RecordService {
         day: record.day,
         floor: record.floor,
         direction: record.direction,
+        results: record.results,
         guess: record.guess,
         lift: record.lift
       };
