@@ -18,8 +18,8 @@ export default class RecordCard extends Component {
     })
   }
 
-  renderResult(r,i) {
-    return (<span key={i}> {r.toPrecision(3)} |</span> );
+  renderResults(results) {
+    return (<span> {results.map(r => r.toPrecision(3)).join(' | ') } </span> );
   }
 
   render() {
@@ -70,7 +70,11 @@ export default class RecordCard extends Component {
             </div>
 
             <div>
-              Results: [ { record.results.map(this.renderResult.bind(this)) } ]
+              Results: [ { this.renderResults(record.results) } ]
+            </div>
+
+            <div>
+              Fake: { record.fake ? 'Yes' : 'No' }
             </div>
           </div>
         </div>
