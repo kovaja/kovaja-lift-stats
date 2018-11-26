@@ -38,6 +38,10 @@ const fillInLift = (record) => {
   return new Promise(update);
 }
 
+/**
+ * record.results will be newly computed if there is not enough results
+ * in the record
+ */
 const updateResults = (record) => {
   const update = (resolve, reject) => {
     if (record.results && record.results.length === LIFTS.length) {
@@ -45,10 +49,23 @@ const updateResults = (record) => {
     }
 
     MathCore.computeResults(record)
-      .then(guesses => {
-        record.results = guesses
+      .then(results => {
+        record.results = results
         return resolve(record);
       });
+  };
+
+  return new Promise(update);
+}
+
+/**
+ * Apparently there was some mistake at some point and guess was -1 in all results
+ * This ensures that guess is always maximum value from results + 1
+ */
+const recomputeGuess = (record) => {
+  const update = (resolve, reject) => {
+    record.guess = record.results.indexOf(Math.max(...record.results)) + 1,
+    resolve(record);
   };
 
   return new Promise(update);
@@ -57,5 +74,6 @@ const updateResults = (record) => {
 module.exports = {
   updateTimestamp: (r) => updateTimestamp(r),
   fillInLift: (r) => fillInLift(r),
-  updateResults: (r) => updateResults(r)
+  updateResults: (r) => updateResults(r),
+  recomputeGuess: (r) => recomputeGuess(r)
 };

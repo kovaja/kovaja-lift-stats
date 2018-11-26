@@ -59,9 +59,10 @@ module.exports = class AdminService {
   // ugly code for one time data update
   // most likely could be improved
   customUpdate() {
-    //const strategy = UpdateStrategy.fillInLift;
-    //const strategy = UpdateStrategy.updateTimestamp;
-    const strategy = UpdateStrategy.updateResults;
+    // const strategy = UpdateStrategy.fillInLift;
+    // const strategy = UpdateStrategy.updateTimestamp;
+    // const strategy = UpdateStrategy.updateResults;
+    const strategy = UpdateStrategy.recomputeGuess;
 
     const updateAllRecords = (records) => {
       const promises = records.map(r => strategy(r));
