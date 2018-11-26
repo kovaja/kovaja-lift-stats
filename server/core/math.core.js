@@ -27,25 +27,22 @@ const minMaxNormalize = (vector) => {
   return minMaxNormalized;
 };
 
-const getModelAsVector = (model) => {
+const getResultVector = (model) => {
   const vector = [model.day, model.hour, model.floor, model.direction];
-
-  // console.debug('-- > Normalize:');
-
   // const normalized = simpleNormalize(vector);
   const normalized = minMaxNormalize(vector);
-  // console.debug(vector, '~~~>', normalized);
 
+  // console.debug(vector, '~~~>', normalized);
   return normalized;
 };
 
-const getWeightsAsMatrix = (weights) => {
-  return weights.map(weightModel => {
+const getWeightsAsMatrix = (allWeights) => {
+  return allWeights.map(weightOfLift => {
     return [
-      weightModel.dayWeight,
-      weightModel.hourWeight,
-      weightModel.floorWeight,
-      weightModel.directionWeight,
+      weightOfLift.dayWeight,
+      weightOfLift.hourWeight,
+      weightOfLift.floorWeight,
+      weightOfLift.directionWeight,
     ];
   });
 };
@@ -55,33 +52,33 @@ const sumUpArray = (array) => {
 };
 
 const computeSingleLiftGuess = (row, vector) => {
-  const weightedVector =  row.map((weight,i) => (weight*vector[i])/vector.length);
+  const weightedVector =  row.map((weight,i) => {
+    // console.log('Weight', i, ':', weight);
+    // console.log('Vector value on index', i, ':', vector[i]);
+    // console.log('Weight times vector', weight*vector[i])
+
+    return (weight*vector[i])/vector.length
+  });
 
   // console.debug('-- >weighted vector', weightedVector);
   return sumUpArray(weightedVector);
 };
 
-const getGuesses = (matrix, vector) => {
-  return matrix.map(row => computeSingleLiftGuess(row, vector));
+const multiplyMatrixByVector = (matrix, vector) => {
+  const resultsForAllLifts = matrix.map(row => computeSingleLiftGuess(row, vector));
+  // console.debug('-- >all results', resultsForAllLifts);
+  return resultsForAllLifts;
 }
 
-const computeGuesses = (record) => {
-  const vector = getModelAsVector(record);
-  // console.debug('\n-- >vector:', vector);
+const computeResults = (record) => {
+  const vector = getResultVector(record);
+  console.debug('Result vector:', vector);
 
   return WeightModel.readAll()
     .then(getWeightsAsMatrix)
-    .then(matrix => getGuesses(matrix, vector))
-    .then(guesses => {
-      // console.debug('-- >all guesses:\n', guesses);
-      return guesses;
-    })
-    .then(guess => {
-      // console.debug('-- >guess:', guess);
-      return guess;
-    });
+    .then(matrix => multiplyMatrixByVector(matrix, vector));
 };
 
 module.exports = {
-  computeGuesses: (record) => computeGuesses(record)
+  computeResults: (record) => computeResults(record)
 };

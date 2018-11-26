@@ -3,15 +3,15 @@ const MathCore = require('../../core/math.core');
 const isDevEnvironment = __dirname.indexOf('C:') !== -1;
 
 module.exports = class RecordService {
-  createRecordObject(model, guesses) {
+  createRecordObject(model, results) {
     return {
       timestamp: model.timestamp,
       hour: model.hour,
       day: model.day,
       floor: model.floor,
       direction: model.direction,
-      guess: guesses.indexOf(Math.max(...guesses)) + 1,
-      results: guesses,
+      results: results,
+      guess: results.indexOf(Math.max(...results)) + 1,
       lift: null,
       fake: isDevEnvironment
     };
@@ -19,8 +19,8 @@ module.exports = class RecordService {
 
   createRecord(model) {
     return MathCore
-      .computeGuesses(model)
-      .then((guesses) => RecordModel.create(this.createRecordObject(model, guesses)));
+      .computeResults(model)
+      .then((results) => RecordModel.create(this.createRecordObject(model, results)));
   }
 
   patchRecord(id, partialModel) {
@@ -37,7 +37,8 @@ module.exports = class RecordService {
         direction: record.direction,
         results: record.results,
         guess: record.guess,
-        lift: record.lift
+        lift: record.lift,
+        fake: record.fake
       };
     };
 

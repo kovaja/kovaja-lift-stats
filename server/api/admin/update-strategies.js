@@ -44,7 +44,7 @@ const updateResults = (record) => {
       return resolve(null);
     }
 
-    MathCore.computeGuesses(record)
+    MathCore.computeResults(record)
       .then(guesses => {
         record.results = guesses
         return resolve(record);

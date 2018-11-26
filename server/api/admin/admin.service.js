@@ -21,6 +21,8 @@ module.exports = class AdminService {
         return { fake: true };
       case 'guess':
         return { guess: null };
+      case 'lift':
+        return { lift: null };
       default:
         return {};
 
@@ -141,7 +143,7 @@ module.exports = class AdminService {
       .then(records => {
         console.debug('---------------try try try try try--------------');
 
-        const promises = records.map(r => MathCore.computeGuesses(r));
+        const promises = records.map(r => MathCore.computeResults(r));
 
         return Promise.all(promises).then(guesses => [records, guesses])
       })
