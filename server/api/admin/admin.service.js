@@ -141,27 +141,22 @@ module.exports = class AdminService {
   tryWeights() {
     return RecordModel.readAll()
       .then(records => {
-        console.debug('---------------try try try try try--------------');
-
         const promises = records.map(r => MathCore.computeResults(r));
 
-        return Promise.all(promises).then(guesses => [records, guesses])
+        return Promise.all(promises).then(results => [records, results])
       })
       .then(data => {
-        const guesses = data[1];
+        const results = data[1];
         const records = data[0];
 
-        const computeGuessedLift = (i) => guesses[i].indexOf(Math.max(...guesses[i])) + 1;
+        const computeGuessedLift = (i) => results[i].indexOf(Math.max(...results[i])) + 1;
 
-        const results = records.map((r, i) => {
+        return records.map((r, i) => {
           const guessedLift = computeGuessedLift(i);
 
           return [r.lift, guessedLift, r.lift === guessedLift]
         });
-
-        console.debug('---------------try try try try try--------------');
-        return results;
       })
-      .then(results => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(results) + '\n' + 'Succes: ' + results.filter(r => r[2]).length + '/' + results.length);
+      .then(result => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(result, null, 2) + '\n' + 'Succes: ' + result.filter(r => r[2]).length + '/' + result.length);
   }
 };

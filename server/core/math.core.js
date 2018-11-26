@@ -72,7 +72,6 @@ const multiplyMatrixByVector = (matrix, vector) => {
 
 const computeResults = (record) => {
   const vector = getResultVector(record);
-  console.debug('Result vector:', vector);
 
   return WeightModel.readAll()
     .then(getWeightsAsMatrix)
