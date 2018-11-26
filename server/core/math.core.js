@@ -57,7 +57,7 @@ const computeSingleLiftGuess = (row, vector) => {
     // console.log('Vector value on index', i, ':', vector[i]);
     // console.log('Weight times vector', weight*vector[i])
 
-    return (weight*vector[i])/vector.length
+    return (weight*vector[i])/1; //vector.length
   });
 
   // console.debug('-- >weighted vector', weightedVector);
