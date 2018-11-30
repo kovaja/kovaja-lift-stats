@@ -70,15 +70,6 @@ module.exports = class AdminService {
       .then(number => `[${SERVICE_NAME}]: ${number} records exported.`);
   }
 
-  /**
-   * EXPORTS REAL INPUTS SO IT CAN BE RELOADED
-   */
-  exportInputs() {
-    return RecordModel.readAll()
-      .then(records => this.writeInputsToFile(records))
-      .then(number => `[${SERVICE_NAME}]: ${number} records exported.`);
-  }
-
   // ugly code for one time data update
   // most likely could be improved
   customUpdate() {
@@ -167,12 +158,10 @@ module.exports = class AdminService {
     return WieghtModel.readAll()
       .then(allWeights => {
         const promises = records.map((record) => {
-          const results = MathCore.computeResults(record, allWeights);
-
           const updatedRecord = Object.assign({}, record);
 
-          updatedRecord.results = results;
-          updatedRecord.guess = results.indexOf(Math.max(...results)) + 1;
+          updatedRecord.results = MathCore.computeResults(record, allWeights);
+          updatedRecord.guess = MathCore.getGuess(updatedRecord.results);
           delete updatedRecord._id;
 
           return recordService.patchRecord(record._id, updatedRecord);
@@ -185,7 +174,7 @@ module.exports = class AdminService {
   computeCost() {
       return RecordModel.readAll()
         .then(records => {
-          const costsForEveryRecord = records.map(r => MathCore.computeCost(r));
+          const costsForEveryRecord = records.map(r => MathCore.computeCost(r.results, r.lift));
           const costs = costsForEveryRecord.map(c => MathCore.sumUpArray(c));
           const average = MathCore.sumUpArray(costs) / records.length
 

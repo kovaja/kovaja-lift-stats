@@ -12,7 +12,7 @@ module.exports = class RecordService {
       floor: model.floor,
       direction: model.direction,
       results: results,
-      guess: results.indexOf(Math.max(...results)) + 1,
+      guess: MathCore.getGuess(results),
       lift: null,
       fake: isDevEnvironment
     };
@@ -25,8 +25,14 @@ module.exports = class RecordService {
       .then(recordObject => RecordModel.create(recordObject));
   }
 
+  updateWeights(results, lift) {
+    const cost = MathCore.computeCost(results, lift);
+    console.log('Cost is', MathCore.sumUpArray(cost));
+  }
+
   patchRecord(id, partialModel) {
-    return RecordModel.update(id, partialModel);
+    return RecordModel.update(id, partialModel)
+      .then(recordToUpdate => this.updateWeights(recordToUpdate.results, partialModel.lift));
   }
 
   readRecords() {

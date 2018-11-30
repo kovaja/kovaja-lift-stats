@@ -80,15 +80,20 @@ const computeResults = (record, allWeights) => {
   return multiplyMatrixByVector(matrix, vector);
 };
 
-const computeCost = (record) => {
+const computeCost = (results, lift) => {
   const expectedResult = [0, 0, 0, 0];
-  expectedResult[record.lift - 1] = 1;
+  expectedResult[lift - 1] = 1;
 
-  return record.results.map((result, i) => Math.pow(result - expectedResult[i], 2));
+  return results.map((result, i) => Math.pow(result - expectedResult[i], 2));
+}
+
+const getGuess = (results) => {
+  return results.indexOf(Math.max(...results)) + 1
 }
 
 module.exports = {
   computeResults: (record, allWeigts) => computeResults(record, allWeigts),
-  computeCost: (record) => computeCost(record),
-  sumUpArray: (array) => sumUpArray(array)
+  computeCost: (results, lift) => computeCost(results, lift),
+  sumUpArray: (array) => sumUpArray(array),
+  getGuess: (results) => getGuess(results),
 };
