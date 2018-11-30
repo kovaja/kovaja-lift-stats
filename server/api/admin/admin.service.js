@@ -8,7 +8,7 @@ const fs = require('fs');
 const SERVICE_NAME = 'Admin';
 const DATA_PATH = 'server/_data';
 const EXPORT_DIR = '/output/';
-const FILE_NAME = 'export';
+const RECORDS_FILE_NAME = 'export_records';
 const FILE_EXTENSION = '.json';
 
 const LIFTS = [1, 2, 3, 4];
@@ -29,30 +29,52 @@ module.exports = class AdminService {
     }
   }
 
-  clear(key) {
+  clearData(key) {
     const query = this.getClearQuery(key);
 
     return RecordModel.deleteMany(query)
       .then(number => `[${SERVICE_NAME}]: ${number} records deleted. Query: ${JSON.stringify(query)}`);
   }
 
-  writeRecordsToFile(records) {
-    const filteredRecords = records.filter(r => !r.fake);
+  getRealRecords(records) {
+    return records.filter(r => !r.fake);
+  }
+
+  getfilePath(filname) {
     const timestampString = '-' + new Date().toDateString().split(' ').join('-');
-    const target = DATA_PATH + EXPORT_DIR + FILE_NAME + timestampString + FILE_EXTENSION;
+    return DATA_PATH + EXPORT_DIR + filname + timestampString + FILE_EXTENSION;
+  }
 
-    console.debug(`[${SERVICE_NAME}]: Will write file with ${records.length} records to ${target}`);
+  writeFile(arrayOfData, filename) {
+    const target = this.getfilePath(filename);
 
-    fs.writeFileSync(target, JSON.stringify(filteredRecords), { encoding: 'utf8' });
-    return records.length;
+    console.debug(`[${SERVICE_NAME}]: Will write file with ${arrayOfData.length} records to ${target}`);
+
+    fs.writeFileSync(target, JSON.stringify(arrayOfData), { encoding: 'utf8' });
+
+    return arrayOfData.length;
+  }
+
+  writeRecordsToFile(records) {
+    const filteredRecords = this.getRealRecords(records);
+    return this.writeFile(filteredRecords, RECORDS_FILE_NAME);
   }
 
   /**
-   * EXPORTS NOT FAKE DATA IN THE DATABASE
+   * EXPORTS NOT FAKE DATA THAT ARE STORED IN THE DATABASE
    */
   exportRecords() {
     return RecordModel.readAll()
       .then(records => this.writeRecordsToFile(records))
+      .then(number => `[${SERVICE_NAME}]: ${number} records exported.`);
+  }
+
+  /**
+   * EXPORTS REAL INPUTS SO IT CAN BE RELOADED
+   */
+  exportInputs() {
+    return RecordModel.readAll()
+      .then(records => this.writeInputsToFile(records))
       .then(number => `[${SERVICE_NAME}]: ${number} records exported.`);
   }
 

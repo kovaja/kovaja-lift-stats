@@ -7,7 +7,7 @@ module.exports = class RecordRoute {
 
     router
       .get('/admin/clear/:key', this.clear.bind(this))
-      .get('/admin/exportRecords', this.export.bind(this))
+      .get('/admin/exportRecords', this.exportRecords.bind(this))
       .get('/admin/customUpdate', this.customUpdate.bind(this))
       .get('/admin/initializeWeights', this.initializeWeights.bind(this))
       .get('/admin/tryWeights', this.tryWeights.bind(this));
@@ -17,19 +17,18 @@ module.exports = class RecordRoute {
   clear(request, response) {
     ApiHelper.logRequest(request);
 
-    this.service.clear(request.params.key)
+    this.service.clearData(request.params.key)
       .then(responseData => response.status(200).send(responseData))
       .catch(ApiHelper.errorSender(response));
   }
 
-  export(request, response) {
+  exportRecords(request, response) {
     ApiHelper.logRequest(request);
 
     this.service.exportRecords()
       .then(responseData => response.status(200).send(responseData))
       .catch(ApiHelper.errorSender(response));
   }
-
 
   customUpdate(request, response) {
     ApiHelper.logRequest(request);
