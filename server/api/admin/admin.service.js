@@ -181,4 +181,15 @@ module.exports = class AdminService {
         return Promise.all(promises);
       });
   }
+
+  computeCost() {
+      return RecordModel.readAll()
+        .then(records => {
+          const costsForEveryRecord = records.map(r => MathCore.computeCost(r));
+          const costs = costsForEveryRecord.map(c => MathCore.sumUpArray(c));
+          const average = MathCore.sumUpArray(costs) / records.length
+
+          return `For ${records.length} records the average cost is ${average}`;
+        });
+  }
 };

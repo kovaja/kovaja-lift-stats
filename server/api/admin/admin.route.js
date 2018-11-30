@@ -10,6 +10,7 @@ module.exports = class RecordRoute {
       .get('/admin/exportRecords', this.exportRecords.bind(this))
       .get('/admin/customUpdate', this.customUpdate.bind(this))
       .get('/admin/initializeWeights', this.initializeWeights.bind(this))
+      .get('/admin/cost', this.computeCost.bind(this))
       .post('/admin/retrain',this.retrain.bind(this));
 
   }
@@ -52,6 +53,14 @@ module.exports = class RecordRoute {
     const model = request.body;
 
     this.service.retrain(model)
+      .then(responseData => response.status(200).send(responseData))
+      .catch(ApiHelper.errorSender(response));
+  }
+
+  computeCost(request, response) {
+    ApiHelper.logRequest(request);
+
+    this.service.computeCost()
       .then(responseData => response.status(200).send(responseData))
       .catch(ApiHelper.errorSender(response));
   }
