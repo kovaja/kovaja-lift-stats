@@ -5,7 +5,8 @@ const initalizeRouter = (express) => {
   const router = express.Router();
 
   new RecordRoute(router);
-  new AdminRoute(router);
+  new AdminRoute(router)
+  router.get('*', (req, res) => res.status(404).send('Unknown resource'));
 
   return router;
 };

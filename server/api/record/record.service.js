@@ -1,3 +1,4 @@
+const WeightModel = require('../../database/models/weight.model');
 const RecordModel = require('../../database/models/record.model');
 const MathCore = require('../../core/math.core');
 const isDevEnvironment = __dirname.indexOf('C:') !== -1;
@@ -18,9 +19,10 @@ module.exports = class RecordService {
   }
 
   createRecord(model) {
-    return MathCore
-      .computeResults(model)
-      .then((results) => RecordModel.create(this.createRecordObject(model, results)));
+    return WeightModel.readAll()
+      .then(allWeights => MathCore.computeResults(model, allWeights))
+      .then(guessResults => this.createRecordObject(model, guessResults))
+      .then(recordObject => RecordModel.create(recordObject));
   }
 
   patchRecord(id, partialModel) {

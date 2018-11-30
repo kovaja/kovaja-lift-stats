@@ -10,7 +10,7 @@ module.exports = class RecordRoute {
       .get('/admin/exportRecords', this.exportRecords.bind(this))
       .get('/admin/customUpdate', this.customUpdate.bind(this))
       .get('/admin/initializeWeights', this.initializeWeights.bind(this))
-      .get('/admin/tryWeights', this.tryWeights.bind(this));
+      .post('/admin/retrain',this.retrain.bind(this));
 
   }
 
@@ -46,10 +46,12 @@ module.exports = class RecordRoute {
       .catch(ApiHelper.errorSender(response));
   }
 
-  tryWeights(request, response) {
+  retrain(request, response) {
     ApiHelper.logRequest(request);
 
-    this.service.tryWeights()
+    const model = request.body;
+
+    this.service.retrain(model)
       .then(responseData => response.status(200).send(responseData))
       .catch(ApiHelper.errorSender(response));
   }

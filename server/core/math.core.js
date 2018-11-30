@@ -1,5 +1,3 @@
-const WeightModel = require('../database/models/weight.model');
-
 const LIFTS = [1, 2, 3, 4];
 const SCALES = [
   [1,2,3,4,5,6],
@@ -70,14 +68,13 @@ const multiplyMatrixByVector = (matrix, vector) => {
   return resultsForAllLifts;
 }
 
-const computeResults = (record) => {
+const computeResults = (record, allWeights) => {
   const vector = getResultVector(record);
+  const matrix = getWeightsAsMatrix(allWeights);
 
-  return WeightModel.readAll()
-    .then(getWeightsAsMatrix)
-    .then(matrix => multiplyMatrixByVector(matrix, vector));
+  return multiplyMatrixByVector(matrix, vector);
 };
 
 module.exports = {
-  computeResults: (record) => computeResults(record)
+  computeResults: (record, allWeigts) => computeResults(record, allWeigts)
 };

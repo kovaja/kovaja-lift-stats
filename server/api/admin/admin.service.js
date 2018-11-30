@@ -1,3 +1,4 @@
+const RecordService = require('../record/record.service');
 const RecordModel = require('../../database/models/record.model');
 const WieghtModel = require('../../database/models/weight.model');
 const MathCore = require('../../core/math.core');
@@ -157,29 +158,27 @@ module.exports = class AdminService {
         console.debug(weights);
 
         return Promise.all(promises).then(() => weights);
-      })
-
+      });
   }
 
-  tryWeights() {
-    return RecordModel.readAll()
-      .then(records => {
-        const promises = records.map(r => MathCore.computeResults(r));
+  retrain(records) {
+    const recordService = new RecordService();
 
-        return Promise.all(promises).then(results => [records, results])
-      })
-      .then(data => {
-        const results = data[1];
-        const records = data[0];
+    return WieghtModel.readAll()
+      .then(allWeights => {
+        const promises = records.map((record) => {
+          const results = MathCore.computeResults(record, allWeights);
 
-        const computeGuessedLift = (i) => results[i].indexOf(Math.max(...results[i])) + 1;
+          const updatedRecord = Object.assign({}, record);
 
-        return records.map((r, i) => {
-          const guessedLift = computeGuessedLift(i);
+          updatedRecord.results = results;
+          updatedRecord.guess = results.indexOf(Math.max(...results)) + 1;
+          delete updatedRecord._id;
 
-          return [r.lift, guessedLift, r.lift === guessedLift]
+          return recordService.patchRecord(record._id, updatedRecord);
         });
-      })
-      .then(result => `[${SERVICE_NAME}]: Weights Tried. [lift, guess, success]` + '\n' + JSON.stringify(result, null, 2) + '\n' + 'Succes: ' + result.filter(r => r[2]).length + '/' + result.length);
+
+        return Promise.all(promises);
+      });
   }
 };
